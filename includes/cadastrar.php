@@ -4,7 +4,9 @@ echo "<pre>"; print_r($_POST); echo "</pre>"; exit;
 
 require __DIR__.'/vendor/autoload.php';
 
-use \App\Entity\Doacao;
+include 'formulario.php';
+
+use \App\Entity\doacao;
 
 if (isset($_POST['id'])) {
 

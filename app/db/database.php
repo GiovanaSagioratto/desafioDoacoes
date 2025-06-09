@@ -13,7 +13,6 @@ class database{
 
     const PASS = '1234';
 
-
     private $table;
 
     private $connection;

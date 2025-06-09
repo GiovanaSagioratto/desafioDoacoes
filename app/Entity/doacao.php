@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use \App\Db\dataBase;
+use \App\db\dataBase;
 use \PDO;
 
-class Doacao{
+class doacao{
     
     public $id;
 
@@ -25,19 +25,21 @@ class Doacao{
 
 
     public function cadastrar(){
+        $this->data = date('Y-m-d H:i:s');
+
     
         $doacao = new database('doacao');
-        $this->id = $doacao->insert([
-                                            'id' => $this->id,    
-                                            'item' => $this->id_item,                                        
-                                            'quant' => $this->quant,
-                                            'datado' => $this->data,
-                                            'local' => $this->local,
-                                            'obs' => $this->obs,
-                                            'anexo' => $this->arquivo,
-                                            'id_usuario' => $this->id_usuario
+        echo "<pre>"; print_r($_POST); echo "</pre>"; exit;
+        // $this->id = $doacao->insert([
+        //                                     'id' => $this->id,    
+        //                                     'item' => $this->id_item,                                        
+        //                                     'quant' => $this->quant,
+        //                                     'local' => $this->local,
+        //                                     'obs' => $this->obs,
+        //                                     'anexo' => $this->arquivo,
+        //                                     'id_usuario' => $this->id_usuario
                                             
-                                        ]);
+        //                                 ]);
 
     return  true;
 }

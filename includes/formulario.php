@@ -1,6 +1,3 @@
-<?php
-include 'cadastrar.php'; 
-?>
 
 <!DOCTYPE html>
 <html>
@@ -18,6 +15,10 @@ include 'cadastrar.php';
 <div class="card"><div class="card">
 <div class="card-body">
 
+<div class="form-group">
+  <label class="col-form-label" for="id">Id da doação</label>
+  <input class="form-control" id="id" name="id" value="<?= $doacao->id ?? '' ?>">
+</div>
 
 <div class="form-group">
   <label class="col-form-label" for="item">Item doado</label>
