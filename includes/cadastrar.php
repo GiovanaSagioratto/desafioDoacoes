@@ -1,14 +1,15 @@
 <?php 
 
 echo "<pre>"; print_r($_POST); echo "</pre>"; exit;
+var_dump($_POST['id_usuario']);
 
 require __DIR__.'/vendor/autoload.php';
 
-include 'formulario.php';
 
 use \App\Entity\doacao;
 
 if (isset($_POST['id'])) {
+die('Cadastrar');
 
   $doacao = new Doacao();
 
@@ -16,7 +17,7 @@ if (isset($_POST['id'])) {
       $nomeArquivo = basename($_FILES['arquivo']['name']);
       $caminho = 'uploads/' . $nomeArquivo;
 
-        if (move_uploaded_file($_FILES['anexo']['tmp_name'], $caminho)) {
+      if (move_uploaded_file($_FILES['arquivo']['tmp_name'], $caminho)) {
           $doacao->arquivo = $caminho;
       } else {
           $doacao->arquivo = ''; 

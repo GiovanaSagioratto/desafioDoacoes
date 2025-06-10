@@ -5,27 +5,24 @@ namespace App\Entity;
 use \PDOException;
 use \App\Db\Database;
 
-class Doacao {
-    public $id;
-    public $id_item;
-    public $data;
-    public $quant;
-    public $local;
-    public $obs;
+class Usuario {
     public $id_usuario;
-    public $arquivo;
+    public $nome;
+    public $email;
+    public $senha;
+    public $curso;
+    public $tipo_usuario;
 
     public function cadastrar() {
         try {
-            $obDatabase = new Database('doacao');
-            $this->id = $obDatabase->insert([
-                'id_item'    => $this->id_item,
-                'data'       => $this->data,
-                'quant'      => $this->quant,
-                'local'      => $this->local,
-                'obs'        => $this->obs,
-                'id_usuario' => $this->id_usuario,
-                'arquivo'    => $this->arquivo
+            $usuDatabase = new Database('usuario');
+            $this->id_usuario = $usuDatabase->insert([
+                'id_usuario'   => $this->id_usuario,
+                'nome'         => $this->nome,
+                'email'        => $this->email,
+                'senha'        => $this->senha,
+                'curso'        => $this->curso,
+                'tipo_usuario' => $this->tipo_usuario,          
             ]);
         } catch (PDOException $e) {
             echo 'Erro ao cadastrar: ' . $e->getMessage();

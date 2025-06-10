@@ -1,4 +1,7 @@
+<?php 
 
+//include 'cabecalho.php';
+?>
 <!DOCTYPE html>
 <html>
 <head>
