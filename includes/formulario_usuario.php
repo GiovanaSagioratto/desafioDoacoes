@@ -1,64 +1,103 @@
+<!doctype html>
+<html class="no-js" lang="en">
 
-<!DOCTYPE html>
-<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Formulário de Doações</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Sign up - srtdash</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon.ico">
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+  <link rel="stylesheet" href="assets/css/themify-icons.css">
+  <link rel="stylesheet" href="assets/css/metisMenu.css">
+  <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+  <link rel="stylesheet" href="assets/css/slicknav.min.css">
+  <!-- amchart css -->
+  <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+  <!-- others css -->
+  <link rel="stylesheet" href="assets/css/typography.css">
+  <link rel="stylesheet" href="assets/css/default-css.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <!-- modernizr css -->
+  <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
+
 <body>
-<main>
- 
-<h4 class="header-title">Cadastre-se</h4>  
- 
-<form method="POST" action="cadastrar.php" enctype="multipart/form-data">
-<div class="col-12 mt-5">
-<div class="card"><div class="card">
-<div class="card-body">
-
-<div class="form-group">
-  <label class="col-form-label" for="id_usuario">Cadastre seu ID</label>
-  <input class="form-control" id="id_usuario" name="id_usuario" value="<?= $usuario->id_usuario ?? '' ?>">
-</div>
-
-<div class="form-group">
-  <label class="col-form-label" for="nome">Nome</label>
-  <input class="form-control" id="nome" name="nome" value="<?= $usuario->nome ?? '' ?>">
-</div>
-
-<div class="form-group">
-  <label class="col-form-label" for="email">E-mail</label>
-  <input class="form-control" id="senha" type="email" name="email" value="<?= $usuario->email ?? '' ?>">
-</div>
-
-<div class="form-group">
-  <label class="col-form-label" for="senha">Senha</label>
-  <input class="form-control" id="senha" type="password" name="senha" value="<?= $usuario->senha ?? '' ?>">
-</div>
-
-<div class="form-group">
-  <label class="col-form-label" for="curso">Curso</label>
-  <input class="form-control" id="curso" type="text" name="curso" value="<?= $usuario->curso ?? '' ?>" placeholder="EX: Engenharia de software">
-</div>
-
-<div class="form-group">
-  <label class="col-form-label" for="tipo_usuario">Seu tipo</label>
-  <input class="form-control" id="tipo_usuario" type="text" name="tipo_usuario" value="<?= $doacao->tipo_usuario ?? '' ?>" placeholder="Tipo do usuário (função)" list="tipos">
-  <datalist id="tipos">
-    <option>Usuário</option>
-    <option>Administrador</option>
-    <option>Organizador</option>
-  </datalist>
+  <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+  <!-- preloader area start -->
+  <div id="preloader">
+    <div class="loader"></div>
   </div>
+  <!-- preloader area end -->
+  <!-- login area start -->
+  <div class="login-area login-s2">
+    <div class="container">
+      <div class="login-box ptb--100">
+        <form>
+          <div class="login-form-head">
+            <h4>Cadastre-se</h4>
+            <p>Cadastre-se para ter acesso as doações</p>
+          </div>
+          <div class="form-group">
+            <label class="col-form-label" for="nome">Nome</label>
+            <input class="form-control" id="nome" name="nome" value="<?= $usuario->nome ?? '' ?>">
+          </div>
 
-  <button type="submit">Enviar</button>
-</div>
-</form>                           
+          <div class="form-group">
+            <label class="col-form-label" for="email">E-mail</label>
+            <input class="form-control" id="email" type="email" name="email" value="<?= $usuario->email ?? '' ?>">
+          </div>
+
+          <div class="form-group">
+            <label class="col-form-label" for="senha">Senha</label>
+            <input class="form-control" id="senha" type="password" name="senha" value="<?= $usuario->senha ?? '' ?>">
+          </div>
+
+
+          <div class="form-group">
+            <label class="col-form-label" for="curso">Curso</label>
+            <input class="form-control" id="curso" type="text" name="curso" value="<?= $usuario->curso ?? '' ?>">
+
+          </div>
+
+          <div class="form-group">
+            <label class="col-form-label" for="tipo_usuario">Seu tipo</label>
+            <input class="form-control" id="tipo_usuario" type="text" name="tipo_usuario" value="<?= $usuario->tipo_usuario ?? '' ?>" placeholder="Tipo do usuário (função)" list="tipos">
+            <datalist id="tipos">
+              <option>Usuário</option>
+              <option>Administrador</option>
+              <option>Organizador</option>
+            </datalist>
+          </div>
+
+          <button type="submit">Enviar</button>
+      </div>
+      </form>
     </div>
-    
-        </div> 
-            </div>
- </div>
 
-</main>
+  </div>
+  </div>
+  </div> 
+
+  <!-- login area end -->
+
+  <!-- jquery latest version -->
+  <script src="assets/js/vendor/jquery-2.2.4.min.js"></script>
+  <!-- bootstrap 4 js -->
+  <script src="assets/js/popper.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+  <script src="assets/js/owl.carousel.min.js"></script>
+  <script src="assets/js/metisMenu.min.js"></script>
+  <script src="assets/js/jquery.slimscroll.min.js"></script>
+  <script src="assets/js/jquery.slicknav.min.js"></script>
+
+  <!-- others plugins -->
+  <script src="assets/js/plugins.js"></script>
+  <script src="assets/js/scripts.js"></script>
 </body>
+
 </html>

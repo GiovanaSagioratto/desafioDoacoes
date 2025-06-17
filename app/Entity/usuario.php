@@ -14,16 +14,16 @@ class Usuario {
     public $tipo_usuario;
 
     public function cadastrar() {
-        try {
+         try {
             $usuDatabase = new Database('usuario');
             $this->id_usuario = $usuDatabase->insert([
-                'id_usuario'   => $this->id_usuario,
                 'nome'         => $this->nome,
                 'email'        => $this->email,
                 'senha'        => $this->senha,
                 'curso'        => $this->curso,
-                'tipo_usuario' => $this->tipo_usuario,          
+                'tipo_usuario' => $this->tipo_usuario,      
             ]);
+            echo "Usuário cadastrado com ID: " . $this->id_usuario;
         } catch (PDOException $e) {
             echo 'Erro ao cadastrar: ' . $e->getMessage();
         }

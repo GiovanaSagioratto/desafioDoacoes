@@ -1,16 +1,12 @@
 <?php 
 
-echo "<pre>"; print_r($_POST); echo "</pre>"; exit;
-var_dump($_POST['id_usuario']);
 
-require __DIR__.'/vendor/autoload.php';
-
+require __DIR__ . '/../vendor/autoload.php';
 
 use \App\Entity\doacao;
 
-if (isset($_POST['id'])) {
-die('Cadastrar');
 
+if (isset($_POST['id'])) {
   $doacao = new Doacao();
 
      if (!empty($_FILES['arquivo']['name'])) {
@@ -37,5 +33,7 @@ die('Cadastrar');
   $doacao->cadastrar();
 
 }
+
+
 
 ?>
