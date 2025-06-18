@@ -1,3 +1,6 @@
+<?php 
+
+?>
 <!doctype html>
 <html class="no-js" lang="en">
 
@@ -37,7 +40,7 @@
   <div class="login-area login-s2">
     <div class="container">
       <div class="login-box ptb--100">
-        <form>
+        <form method="POST" action="cadastrar_usuario.php" >
           <div class="login-form-head">
             <h4>Cadastre-se</h4>
             <p>Cadastre-se para ter acesso as doações</p>

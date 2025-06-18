@@ -1,5 +1,41 @@
-<?php 
+<?php
 
+
+require __DIR__ . '/vendor/autoload.php';
+
+use \App\Db\Database;
+
+if (isset($_POST['email'], $_POST['senha'])) {
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
+
+    try {
+        // Conectar ao banco usando sua classe Database
+        $db = new Database('usuario');
+
+        // Buscar o usuário pelo email
+        $pdo = $db->getConnection();
+        $stmt = $pdo->prepare("SELECT * FROM usuario WHERE email = :email");
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($usuario) {
+            // Verifica se a senha digitada bate com a senha do banco
+            if (password_verify($senha, $usuario['senha'])) {
+                header('Location: index.php');
+                exit;
+            } else {
+                echo "Senha incorreta.";
+            }
+        } else {
+            echo "Usuário não encontrado.";
+        }
+
+    } catch (PDOException $e) {
+        echo "Erro na conexão com o banco: " . $e->getMessage();
+    }
+}
 ?>
 
 <!doctype html>
@@ -41,19 +77,19 @@
     <div class="login-area login-s2">
         <div class="container">
             <div class="login-box ptb--100">
-                <form>
+                <form method="post" action="login.php">
                     <div class="login-form-head">
                         <h4>Entrar</h4>
                     </div>
                     <div class="login-form-body">
                         <div class="form-gp">
                             <label for="exampleInputEmail1">E-mail</label>
-                            <input type="email" id="exampleInputEmail1">
+                            <input type="email" name="email" placeholder="Digite seu e-mail" required>
                             <i class="ti-email"></i>
                         </div>
                         <div class="form-gp">
                             <label for="exampleInputPassword1">Senha</label>
-                            <input type="password" id="exampleInputPassword1">
+                            <input type="password" name="senha" placeholder="Digite sua senha" required>
                             <i class="ti-lock"></i>
                         </div>
                         <div class="row mb-4 rmber-area">

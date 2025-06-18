@@ -91,6 +91,10 @@ class database{
     
         return true;
       }
+      public function getConnection() {
+        return $this->connection;
+    }
     
     }
+    
 ?>
