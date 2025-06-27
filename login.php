@@ -20,17 +20,20 @@ if (isset($_POST['email'], $_POST['senha'])) {
         $stmt->execute();
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($usuario) {
-            // Verifica se a senha digitada bate com a senha do banco
-            if (password_verify($senha, $usuario['senha'])) {
-                header('Location: index.php');
-                exit;
-            } else {
-                echo "Senha incorreta.";
-            }
-        } else {
-            echo "Usuário não encontrado.";
-        }
+if (password_verify($senha, $usuario['senha'])) {
+    session_start();
+    $_SESSION['usuario_id'] = $usuario['codigo'];
+    $_SESSION['nome'] = $usuario['nome'];
+    $_SESSION['tipo_usuario'] = $usuario['tipo_usuario'];
+
+    // Redireciona com base no tipo de usuário
+    if ($usuario['tipo_usuario'] === 'admin') {
+        header('Location: dashboards/admin.php');
+    } else {
+        header('Location: dashboards/usuario.php');
+    }
+    exit;
+}
 
     } catch (PDOException $e) {
         echo "Erro na conexão com o banco: " . $e->getMessage();
@@ -84,12 +87,12 @@ if (isset($_POST['email'], $_POST['senha'])) {
                     <div class="login-form-body">
                         <div class="form-gp">
                             <label for="exampleInputEmail1">E-mail</label>
-                            <input type="email" name="email" placeholder="Digite seu e-mail" required>
+                            <input type="email" name="email" required>
                             <i class="ti-email"></i>
                         </div>
                         <div class="form-gp">
                             <label for="exampleInputPassword1">Senha</label>
-                            <input type="password" name="senha" placeholder="Digite sua senha" required>
+                            <input type="password" name="senha" required>
                             <i class="ti-lock"></i>
                         </div>
                         <div class="row mb-4 rmber-area">

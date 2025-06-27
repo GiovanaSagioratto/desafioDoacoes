@@ -61,9 +61,8 @@
                             <img class="avatar user-thumb" src="assets/images/author/avatar.png" alt="avatar">
                             <h4 class="user-name dropdown-toggle" data-toggle="dropdown">Giovana <i class="fa fa-angle-down"></i></h4>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Mensagens</a>
-                                <a class="dropdown-item" href="#">Configurações</a>
-                                <a class="dropdown-item" href="#">Sair</a>
+                                
+                                <a class="dropdown-item" href="login.php">Sair</a>
                             </div>
                         </div>
                     </div>

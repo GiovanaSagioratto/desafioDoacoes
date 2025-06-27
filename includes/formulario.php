@@ -19,11 +19,6 @@
 <div class="card-body">
 
 <div class="form-group">
-  <label class="col-form-label" for="id">Id da doação</label>
-  <input class="form-control" id="id" name="id" value="<?= $doacao->id ?? '' ?>">
-</div>
-
-<div class="form-group">
   <label class="col-form-label" for="item">Item doado</label>
   <input class="form-control" id="item" name="item" value="<?= $doacao->item ?? '' ?>">
 </div>
@@ -35,7 +30,7 @@
 
 <div class="form-group">
   <label class="col-form-label" for="datado">Data da doação</label>
-  <input class="form-control" id="datado" type="date" name="datado" value="<?= $doacao->datado ?? '' ?>">
+  <input class="form-control" id="datado" type="date" name="data" value="<?= $doacao->datado ?? '' ?>">
 </div>
 
 <div class="form-group">
@@ -45,7 +40,7 @@
 
 <div class="form-group">
   <label class="col-form-label" for="anexo">Anexo</label>
-  <input class="form-control" id="anexo" type="file" name="anexo" value="<?= $doacao->anexo ?? '' ?>">
+  <input class="form-control" id="arquivo" type="file" name="arquivo" value="<?= $doacao->anexo ?? '' ?>">
 </div>
 
 <div class="form-group">
@@ -54,9 +49,6 @@
 </div>
 
 <div class="form-group">
-  <label class="col-form-label" for="id_usuario">Seu ID</label>
-  <input class="form-control" id="id_usuario" type="text" name="id_usuario" value="<?= $doacao->id_usuario ?? '' ?>" placeholder="Identificação do usuário">
-
   <button type="submit">Enviar</button>
 </div>
 </form>                           

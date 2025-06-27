@@ -11,7 +11,6 @@ class Usuario {
     public $email;
     public $senha;
     public $curso;
-    public $tipo_usuario;
 
     public function cadastrar() {
          try {
@@ -20,8 +19,7 @@ class Usuario {
                 'nome'         => $this->nome,
                 'email'        => $this->email,
                 'senha'        => $this->senha,
-                'curso'        => $this->curso,
-                'tipo_usuario' => $this->tipo_usuario,      
+                'curso'        => $this->curso,     
             ]);
             echo "Usuário cadastrado com ID: " . $this->id_usuario;
         } catch (PDOException $e) {

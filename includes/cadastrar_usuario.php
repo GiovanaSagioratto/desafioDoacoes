@@ -12,7 +12,7 @@ if ($conn->connect_error) {
   die("Conexão falhou: " . $conn->connect_error);
 }
 
-if (isset($_POST['nome'], $_POST['email'], $_POST['senha'], $_POST['curso'], $_POST['tipo_usuario'])) {
+if (isset($_POST['nome'], $_POST['email'], $_POST['senha'], $_POST['curso'])) {
 
   $usuario = new Usuario();
   $usuario->nome         = $_POST['nome'] ?? '';
@@ -20,9 +20,12 @@ if (isset($_POST['nome'], $_POST['email'], $_POST['senha'], $_POST['curso'], $_P
   $senhaHash = password_hash($_POST['senha'], PASSWORD_DEFAULT);
   $usuario->senha = $senhaHash;
   $usuario->curso        = $_POST['curso'] ?? '';
-  $usuario->tipo_usuario = $_POST['tipo_usuario'] ?? '';
+
 
   $usuario->cadastrar();
+
+
+  
 }
 
 

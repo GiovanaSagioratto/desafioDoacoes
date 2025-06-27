@@ -7,7 +7,7 @@ use \App\Db\Database;
 
 class Doacao {
     public $id;
-    public $id_item;
+    public $item;
     public $data;
     public $quant;
     public $local;
@@ -19,7 +19,7 @@ class Doacao {
         try {
             $obDatabase = new Database('doacao');
             $this->id = $obDatabase->insert([
-                'id_item'    => $this->id_item,
+                'item'    => $this->item,
                 'data'       => $this->data,
                 'quant'      => $this->quant,
                 'local'      => $this->local,
