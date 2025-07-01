@@ -8,11 +8,13 @@ use \App\Entity\doacao;
 $conn = new mysqli("localhost", "root", "1234", "validacao");
 
 
+
+
 if ($conn->connect_error) {
   die("Conexão falhou: " . $conn->connect_error);
 }
 
-if (isset($_POST['item'], $_POST['data'], $_POST['quant'], $_POST['local'], $_POST['obs'], $_POST['id_usuario'])) {
+if (isset($_POST['item'], $_POST['data'], $_POST['quant'], $_POST['local'], $_POST['obs'])) {
   $doacao = new Doacao();
 
      if (!empty($_FILES['arquivo']['name'])) {
@@ -27,17 +29,16 @@ if (isset($_POST['item'], $_POST['data'], $_POST['quant'], $_POST['local'], $_PO
   } else {
       $doacao->arquivo = '';
   }
-
-  $doacao->id          = $_POST['id'] ?? '';
   $doacao->item        = $_POST['item'] ?? '';
   $doacao->data        = $_POST['data'] ?? '';
   $doacao->quant       = $_POST['quant'] ?? '';
   $doacao->local       = $_POST['local'] ?? '';
   $doacao->obs         = $_POST['obs'] ?? '';
+ 
 
-  session_start();
-  $doacao->id_usuario = $_SESSION['id_usuario'] ?? null;
-  
+ session_start();
+ $doacao->id_usuario = $_SESSION['usuario_id'] ?? null;
+     
   $doacao->cadastrar();
 
 }

@@ -6,26 +6,27 @@ use \PDOException;
 use \App\Db\Database;
 
 class Doacao {
-    public $id;
     public $item;
     public $data;
     public $quant;
     public $local;
     public $obs;
-    public $id_usuario;
     public $arquivo;
+    public $id_usuario;
 
     public function cadastrar() {
+        
         try {
             $obDatabase = new Database('doacao');
+        
             $this->id = $obDatabase->insert([
                 'item'    => $this->item,
                 'data'       => $this->data,
                 'quant'      => $this->quant,
                 'local'      => $this->local,
                 'obs'        => $this->obs,
-                'id_usuario' => $this->id_usuario,
-                'arquivo'    => $this->arquivo
+                'arquivo'    => $this->arquivo,
+                'id_usuario' => $this->id_usuario
             ]);
         } catch (PDOException $e) {
             echo 'Erro ao cadastrar: ' . $e->getMessage();

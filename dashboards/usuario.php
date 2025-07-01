@@ -30,9 +30,7 @@
         <!-- Sidebar Menu -->
         <div class="sidebar-menu">
             <div class="sidebar-header">
-                <div class="logo">
-                    <a href="#"><img src="../assets/images/icon/logo.png" alt="logo" style="max-width: 150px;"></a>
-                </div>
+                
             </div>
             <div class="main-menu">
                 <div class="menu-inner">

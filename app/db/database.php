@@ -1,10 +1,10 @@
 <?php 
-namespace app\db;
+namespace App\Db;
 
 use \PDO;
 use \PDOException;
 
-class database{
+class Database {
     const HOST = 'localhost';
 
     const NAME = 'validacao';
@@ -43,6 +43,7 @@ class database{
 
       public function insert($values){
       
+        
    
         $fields = array_keys($values);
         $binds  = array_pad([],count($fields),'?');

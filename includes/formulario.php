@@ -1,6 +1,6 @@
 <?php 
 
-//include 'cabecalho.php';
+include 'cabecalho.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -30,7 +30,7 @@
 
 <div class="form-group">
   <label class="col-form-label" for="datado">Data da doação</label>
-  <input class="form-control" id="datado" type="date" name="data" value="<?= $doacao->datado ?? '' ?>">
+  <input class="form-control" id="data" type="date" name="data" value="<?= $doacao->datado ?? '' ?>">
 </div>
 
 <div class="form-group">

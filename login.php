@@ -20,9 +20,11 @@ if (isset($_POST['email'], $_POST['senha'])) {
         $stmt->execute();
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    
+
 if (password_verify($senha, $usuario['senha'])) {
     session_start();
-    $_SESSION['usuario_id'] = $usuario['codigo'];
+    $_SESSION['usuario_id'] = $usuario['id_usuario'];
     $_SESSION['nome'] = $usuario['nome'];
     $_SESSION['tipo_usuario'] = $usuario['tipo_usuario'];
 
