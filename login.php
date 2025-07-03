@@ -1,10 +1,13 @@
-<?php
 
+<?php
+// Inicia a sessão no TOPO do arquivo, antes de qualquer output
+session_start();
 
 require __DIR__ . '/vendor/autoload.php';
 
 use \App\Db\Database;
 
+// Verifica se o formulário foi submetido
 if (isset($_POST['email'], $_POST['senha'])) {
     $email = $_POST['email'];
     $senha = $_POST['senha'];
@@ -20,27 +23,33 @@ if (isset($_POST['email'], $_POST['senha'])) {
         $stmt->execute();
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    
+        if ($usuario && password_verify($senha, $usuario['senha'])) {
+            // Agora a sessão já está iniciada, só precisamos setar os valores
+            $_SESSION['id_usuario'] = $usuario['id_usuario'];
+            $_SESSION['nome'] = $usuario['nome'];
+            $_SESSION['tipo_usuario'] = $usuario['tipo_usuario'];
 
-if (password_verify($senha, $usuario['senha'])) {
-    session_start();
-    $_SESSION['usuario_id'] = $usuario['id_usuario'];
-    $_SESSION['nome'] = $usuario['nome'];
-    $_SESSION['tipo_usuario'] = $usuario['tipo_usuario'];
-
-    // Redireciona com base no tipo de usuário
-    if ($usuario['tipo_usuario'] === 'admin') {
-        header('Location: dashboards/admin.php');
-    } else {
-        header('Location: dashboards/usuario.php');
-    }
-    exit;
-}
+            // Redireciona com base no tipo de usuário
+            if ($usuario['tipo_usuario'] === 'admin') {
+                header('Location: dashboards/admin.php');
+            } else {
+                header('Location: dashboards/usuario.php');
+            }
+            exit;
+        } else {
+            // Adicione uma mensagem de erro se o login falhar
+            $_SESSION['login_error'] = "E-mail ou senha incorretos";
+            header('Location: login.php'); // Redireciona de volta para a página de login
+            exit;
+        }
+       
 
     } catch (PDOException $e) {
-        echo "Erro na conexão com o banco: " . $e->getMessage();
-    }
+        $_SESSION['db_error'] = "Erro na conexão com o banco: " . $e->getMessage();
+        header('Location: login.php');
+        exit; 
 }
+ } 
 ?>
 
 <!doctype html>
@@ -59,7 +68,8 @@ if (password_verify($senha, $usuario['senha'])) {
     <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
     <link rel="stylesheet" href="assets/css/slicknav.min.css">
     <!-- amchart css -->
-    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css"
+        media="all" />
     <!-- others css -->
     <link rel="stylesheet" href="assets/css/typography.css">
     <link rel="stylesheet" href="assets/css/default-css.css">
@@ -124,7 +134,7 @@ if (password_verify($senha, $usuario['senha'])) {
     <script src="assets/js/metisMenu.min.js"></script>
     <script src="assets/js/jquery.slimscroll.min.js"></script>
     <script src="assets/js/jquery.slicknav.min.js"></script>
-    
+
     <!-- others plugins -->
     <script src="assets/js/plugins.js"></script>
     <script src="assets/js/scripts.js"></script>

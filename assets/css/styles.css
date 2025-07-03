@@ -55,6 +55,7 @@
 /*------------------------- 1. Core Css -------------------*/
 
 .page-container {
+    box-sizing: border-box;
     width: 100%;
     height: 100%;
     min-height: 100vh;
@@ -62,12 +63,10 @@
     -webkit-transition: padding-left 0.3s ease 0s;
     transition: padding-left 0.3s ease 0s;
 }
-
+    
 .sbar_collapsed.page-container {
     padding-left: 0;
 }
-
-
 .card {
     border: none;
     border-radius: 4px;
@@ -130,7 +129,7 @@
 }
 
 .menu-inner {
-    overflow-y: scroll;
+    overflow-y: hidden;
     height: 100%;
 }
 
@@ -151,7 +150,10 @@
     display: inline-block;
     max-width: 120px;
 }
-
+#img-logoC{
+    width: 150px;
+    height: 150px;
+}
 .metismenu >li >a {
     padding-left: 32px!important;
 }
