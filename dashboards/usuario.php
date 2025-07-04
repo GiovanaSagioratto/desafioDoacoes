@@ -1,9 +1,7 @@
 
 
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
+
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>srtdash - ICO Dashboard</title>
@@ -25,9 +23,9 @@
 
     <!-- JS Modernizr -->
     <script src="../assets/js/vendor/modernizr-2.8.3.min.js"></script>
-</head>
 
-<body>
+
+
     <?php include('../includes/cabecalho.php') ?>
     
     <!-- Page Container -->
@@ -59,7 +57,7 @@
             </div>
         </div>
 
-        <!-- Main Content -->
+        <!-- Main Content --> 
         
             <!-- Conteúdo principal -->
             
@@ -74,11 +72,3 @@
     <script src="../assets/js/jquery.slimscroll.min.js"></script>
     <script src="../assets/js/jquery.slicknav.min.js"></script>
 
-    <!-- Ativa o menu -->
-    <script>
-        $(document).ready(function () {
-            $('#menu').metisMenu();
-        });
-    </script>
-</body>
-</html>

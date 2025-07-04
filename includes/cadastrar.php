@@ -19,7 +19,7 @@ if ($conn->connect_error) {
 if (isset($_POST['item'], $_POST['data'], $_POST['quant'], $_POST['local'], $_POST['obs'])) {
     $doacao = new Doacao();
 
-    // Processamento do arquivo
+    
     if (!empty($_FILES['arquivo']['name'])) {
         $nomeArquivo = basename($_FILES['arquivo']['name']);
         $caminho = 'uploads/' . $nomeArquivo;
@@ -41,10 +41,11 @@ if (isset($_POST['item'], $_POST['data'], $_POST['quant'], $_POST['local'], $_PO
     $doacao->local = $_POST['local'] ?? '';
     $doacao->obs = $_POST['obs'] ?? '';
     
+    
     try {
         $doacao->cadastrar();
         $_SESSION['mensagem'] = "Doação cadastrada com sucesso!";
-        header("Location: perfil_usuario.php"); // Redireciona após cadastro
+        header("Location: ../dashboard/usuario.php"); // 
         exit;
     } catch (Exception $e) {
         $_SESSION['erro'] = "Erro ao cadastrar doação: " . $e->getMessage();

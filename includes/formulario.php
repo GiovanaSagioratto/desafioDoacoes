@@ -66,9 +66,9 @@ include 'cabecalho.php';
         </div> 
             </div>
  </div>
-   <!-- 👆 Fecha main-area aberta no cabecalho -->
-  </div> <!-- fecha .main-area -->
-</div> <!-- fecha .page-container -->
+
+  </div> <
+</div> 
 </body>
 </html>
 </main>

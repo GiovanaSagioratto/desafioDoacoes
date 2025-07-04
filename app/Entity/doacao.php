@@ -13,6 +13,9 @@ class Doacao {
     public $obs;
     public $arquivo;
     public $id_usuario;
+    public $status;
+
+
 
     public function cadastrar() {
         
@@ -26,13 +29,53 @@ class Doacao {
                 'local'      => $this->local,
                 'obs'        => $this->obs,
                 'arquivo'    => $this->arquivo,
-                'id_usuario' => $this->id_usuario
+                'id_usuario' => $this->id_usuario,
+                'status' => 'pendente'
             ]);
+
         } catch (PDOException $e) {
             echo 'Erro ao cadastrar: ' . $e->getMessage();
         }
     }
+    
+public static function getDoacoesPorUsuario($id_usuario, $status = null) {
+    $where = "id_usuario = $id_usuario";
+
+    if ($status) {
+        $where .= " AND status = '$status'";
+    }
+
+    return (new Database('doacao'))->select($where)
+                                   ->fetchAll(\PDO::FETCH_CLASS, self::class);
 }
+public static function getDoacaoPorId($id) {
+    return (new Database('doacao'))->select("id = $id")
+                                   ->fetchObject(self::class);
+}
+   public static function getPendentes() {
+    return (new Database('doacao'))->select("status = 'pendente'")
+                                   ->fetchAll(\PDO::FETCH_CLASS, self::class);
+}
+
+public function atualizar() {
+    return (new Database('doacao'))->update('id = '.$this->id, [
+        'item'    => $this->item,
+        'data'    => $this->data,
+        'quant'   => $this->quant,
+        'local'   => $this->local,
+        'obs'     => $this->obs,
+        'arquivo' => $this->arquivo,
+        'status'  => $this->status,
+        'id_usuario' => $this->id_usuario
+    ]);
+}
+public static function getProximaPendente() {
+    return (new Database('doacao'))->select("status = 'pendente' ORDER BY id ASC LIMIT 1")
+                                   ->fetchObject(self::class);
+}
+
+}
+
 
 
 // public function atualizar(){

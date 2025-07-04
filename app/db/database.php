@@ -43,8 +43,7 @@ class Database {
 
       public function insert($values){
       
-        
-   
+ 
         $fields = array_keys($values);
         $binds  = array_pad([],count($fields),'?');
     
