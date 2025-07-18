@@ -6,6 +6,7 @@ use \PDOException;
 use \App\Db\Database;
 
 class Doacao {
+    public $id;
     public $item;
     public $data;
     public $quant;
@@ -14,9 +15,10 @@ class Doacao {
     public $arquivo;
     public $id_usuario;
     public $status;
-
-
-
+    public $categoria;
+    public $motivo_recusa;
+    public $campanha;
+    
     public function cadastrar() {
         
         try {
@@ -26,10 +28,12 @@ class Doacao {
                 'item'    => $this->item,
                 'data'       => $this->data,
                 'quant'      => $this->quant,
+                'categoria'  => $this->categoria,
                 'local'      => $this->local,
                 'obs'        => $this->obs,
                 'arquivo'    => $this->arquivo,
                 'id_usuario' => $this->id_usuario,
+                'campanha'   => $this->campanha,
                 'status' => 'pendente'
             ]);
 
@@ -41,13 +45,14 @@ class Doacao {
 public static function getDoacoesPorUsuario($id_usuario, $status = null) {
     $where = "id_usuario = $id_usuario";
 
-    if ($status) {
+    if ($status !== null) {
         $where .= " AND status = '$status'";
     }
 
     return (new Database('doacao'))->select($where)
                                    ->fetchAll(\PDO::FETCH_CLASS, self::class);
 }
+
 public static function getDoacaoPorId($id) {
     return (new Database('doacao'))->select("id = $id")
                                    ->fetchObject(self::class);
@@ -66,13 +71,16 @@ public function atualizar() {
         'obs'     => $this->obs,
         'arquivo' => $this->arquivo,
         'status'  => $this->status,
-        'id_usuario' => $this->id_usuario
+        'id_usuario' => $this->id_usuario,
+        'campanha' => $this->campanha,
+        'motivo_recusa'  => $this->motivo_recusa
     ]);
 }
 public static function getProximaPendente() {
     return (new Database('doacao'))->select("status = 'pendente' ORDER BY id ASC LIMIT 1")
                                    ->fetchObject(self::class);
 }
+
 
 }
 

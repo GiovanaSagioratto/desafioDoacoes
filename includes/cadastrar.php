@@ -16,7 +16,7 @@ if ($conn->connect_error) {
     die("Conexão falhou: " . $conn->connect_error);
 }
 
-if (isset($_POST['item'], $_POST['data'], $_POST['quant'], $_POST['local'], $_POST['obs'])) {
+if (isset($_POST['item'], $_POST['data'], $_POST['quant'], $_POST['local'], $_POST['obs'],$_POST['categoria'])) {
     $doacao = new Doacao();
 
     
@@ -37,9 +37,11 @@ if (isset($_POST['item'], $_POST['data'], $_POST['quant'], $_POST['local'], $_PO
     $doacao->id_usuario = $_SESSION['id_usuario'];
     $doacao->item = $_POST['item'] ?? '';
     $doacao->data = $_POST['data'] ?? '';
-    $doacao->quant = $_POST['quant'] ?? '';
+    $doacao->categoria = $_POST['categoria'] ?? '';
     $doacao->local = $_POST['local'] ?? '';
     $doacao->obs = $_POST['obs'] ?? '';
+    $doacao->campanha = $_POST['campanha'] ?? '';
+    
     
     
     try {

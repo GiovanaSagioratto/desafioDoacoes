@@ -31,15 +31,32 @@ include 'cabecalho.php';
   <label class="col-form-label" for="item">Item doado</label>
   <input class="form-control" id="item" name="item" value="<?= $doacao->item ?? '' ?>">
 </div>
-
+<div class="form-group">
+  <label class="col-form-label" for="categoria">Categoria</label>
+  <select class="form-control" id="categoria" name="categoria" required>
+    <option value="">Selecione</option>
+    <option value="alimento" <?= (isset($doacao->categoria) && $doacao->categoria === 'alimento') ? 'selected' : '' ?>>Alimento</option>
+    <option value="evento" <?= (isset($doacao->categoria) && $doacao->categoria === 'evento') ? 'selected' : '' ?>>Evento</option>
+    <option value="curso" <?= (isset($doacao->categoria) && $doacao->categoria === 'curso') ? 'selected' : '' ?>>Curso</option>
+    <option value="ação" <?= (isset($doacao->categoria) && $doacao->categoria === 'ação') ? 'selected' : '' ?>>Ação</option>
+  </select>
+</div>
+<label for="campanha">Campanha:</label>
+<select name="campanha" id="campanha" class="form-control" required>
+    <option value="">Selecione</option>
+    <option value="Campanha do Agasalho">Campanha do Agasalho</option>
+    <option value="Dia das Crianças">Dia das Crianças</option>
+    <option value="Ajude os Animais">Ajude os Animais</option>
+    <option value="Doe Calor e Esperança">Doe Calor e Esperança</option> <!-- minha sugestão criativa -->
+</select>
 <div class="form-group">
   <label class="col-form-label" for="quant">Quantidade</label>
   <input class="form-control" id="quant" type="number" name="quant" value="<?= $doacao->quant ?? '' ?>">
 </div>
-
 <div class="form-group">
   <label class="col-form-label" for="datado">Data da doação</label>
-  <input class="form-control" id="data" type="date" name="data" value="<?= $doacao->datado ?? '' ?>">
+  <input class="form-control" id="data" type="date" name="data" 
+         value="<?= date('Y-m-d') ?>" readonly>
 </div>
 
 <div class="form-group">

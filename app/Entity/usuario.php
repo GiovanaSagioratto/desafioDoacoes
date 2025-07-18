@@ -11,6 +11,8 @@ class Usuario {
     public $email;
     public $senha;
     public $curso;
+    public $tipo_usuario;
+    public $campanha;
 
     public function cadastrar() {
          try {
@@ -19,14 +21,46 @@ class Usuario {
                 'nome'         => $this->nome,
                 'email'        => $this->email,
                 'senha'        => $this->senha,
-                'curso'        => $this->curso,     
+                'curso'        => $this->curso,  
+                'tipo_usuario' => $this->tipo_usuario,
+                'campanha'     => $this->campanha
+                 
             ]);
             echo "Usuário cadastrado com ID: " . $this->id_usuario;
         } catch (PDOException $e) {
             echo 'Erro ao cadastrar: ' . $e->getMessage();
         }
     }
+    public static function getNomePorId($id_usuario) {
+    return (new Database('usuario'))->select("id_usuario = $id_usuario")
+                                    ->fetchObject(self::class);
 }
+public static function getUsuarioPorId($id) {
+    return (new Database('usuario'))->select('id_usuario = ' . (int)$id)
+                                     ->fetchObject(self::class);
+}
+public function atualizar() {
+    return (new Database('usuario'))->update('id_usuario = '.$this->id_usuario, [
+        'nome' => $this->nome,
+        'foto_perfil' => $this->foto_perfil
+    ]);
+}
+public static function getUsuariosPorTipo($tipo)
+{
+    try {
+        $pdo = new \PDO('mysql:host=localhost;dbname=desafioDoacoes', 'root', '');
+        $stmt = $pdo->prepare('SELECT * FROM usuario WHERE tipo_usuario = :tipo');
+        $stmt->bindValue(':tipo', $tipo);
+        $stmt->execute();
+
+        return $stmt->fetchAll(\PDO::FETCH_CLASS, self::class);
+    } catch (\PDOException $e) {
+        echo 'Erro ao buscar usuários: ' . $e->getMessage();
+        return [];
+    }
+}
+}
+
 
 
 // public function atualizar(){

@@ -7,9 +7,15 @@ include('../includes/cabecalho.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'], $_POST['acao'])) {
     $doacao = Doacao::getDoacaoPorId($_POST['id']);
+
     if ($doacao) {
-        $novoStatus = ($_POST['acao'] === 'aceitar') ? 'aprovada' : 'rejeitada';
-        $doacao->status = $novoStatus;
+        if ($_POST['acao'] === 'recusar') {
+            $doacao->status = 'rejeitada';
+            $doacao->motivo_recusa = $_POST['motivo'] ?? 'Não informado';
+        } else {
+            $doacao->status = 'aprovada';
+        }
+
         $doacao->atualizar();
     }
 
@@ -24,6 +30,13 @@ if (!$doacao) {
     echo "<h3 style='padding:20px;'>Não há doações pendentes para validar.</h3>";
     exit;
 }
+$categoriasHoras = [
+    'alimento' => 10,
+    'evento' => 20,
+    'curso' => 30,
+    'ação' => 40
+];
+$horas = $categoriasHoras[$doacao->categoria] ?? 0;
 ?>
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -62,49 +75,41 @@ if (!$doacao) {
                         </div>
                         <div class="row align-items-center">
                             <div class="col-md-6">
-                                <div class="invoice-address">
-                                    <h3>Doado por</h3>
-                                    <h5>Verdie Hintz</h5>
-                                    <p>4494 Weekley Street, San Antonio, 78205 Texas</p>
-                                    <p>San Antonio</p>
-                                    <p>Somalia</p>
-                                </div>
+                                <?php
+                                $usuario = \App\Entity\usuario::getNomePorId($doacao->id_usuario);
+                                ?>
+                                <h5><?= htmlspecialchars($usuario->nome ?? 'Usuário não encontrado') ?></h5>
                             </div>
-
                         </div>
                         <div class="invoice-table table-responsive mt-5">
                             <table class="table table-bordered table-hover text-right">
                                 <thead>
                                     <tr class="text-capitalize">
-                                        <th class="text-center" style="width: 5%;">id</th>
-                                        <th class="text-left" style="width: 45%; min-width: 130px;">description</th>
-                                        <th>qty</th>
-                                        <th style="min-width: 100px">Unit Cost</th>
-                                        <th>total</th>
+                                       
+                                        
+
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="text-center"><?= htmlspecialchars($doacao->id) ?></td>
-                                        <td class="text-left"><?= htmlspecialchars($doacao->item) ?></td>
-                                        <td><?= htmlspecialchars($doacao->quant) ?></td>
-                                        <td>R$0,00</td> <!-- você pode substituir isso se tiver valor -->
-                                        <td>R$0,00</td>
-                                    </tr>
+
+                                    <p><strong>Item:</strong> <?= htmlspecialchars($doacao->item) ?></p>
+                                    <p><strong>Campanha:</strong> <?= htmlspecialchars($doacao->campanha) ?></p>
+                                    <p><strong>Categoria:</strong> <?= htmlspecialchars($doacao->categoria) ?></p>
+                                    <p><strong>Observação:</strong> <?= htmlspecialchars($doacao->obs) ?></p>
+                                    <?php if ($doacao->arquivo): ?>
+                                        <p><strong>Anexo:</strong> <a href="<?= $doacao->arquivo ?>" target="_blank">Ver
+                                                arquivo</a></p>
+                                    <?php endif; ?>
                                 </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="4">total balance :</td>
-                                        <td>$140</td>
-                                    </tr>
-                                </tfoot>
+
                             </table>
                         </div>
                     </div>
-                    <form method="POST" class="invoice-buttons text-right">
+                    <form method="POST" class="invoice-buttons text-right" onsubmit="return validarFormulario()">
                         <input type="hidden" name="id" value="<?= $doacao->id ?>">
-                        <button name="acao" value="aceitar" class="invoice-btn">ACEITAR</button>
-                        <button name="acao" value="recusar" class="invoice-btn">RECUSAR</button>
+                        <input type="hidden" id="motivoInput" name="motivo">
+                        <button type="submit" name="acao" value="aceitar" class="invoice-btn">ACEITAR</button>
+                        <button type="button" class="invoice-btn" onclick="recusarComMotivo()">RECUSAR</button>
                     </form>
                 </div>
             </div>
@@ -112,3 +117,24 @@ if (!$doacao) {
     </div>
 </div>
 </div>
+<script>
+    function recusarComMotivo() {
+        const motivo = prompt("Informe o motivo da recusa:");
+        if (motivo && motivo.trim() !== "") {
+            document.getElementById('motivoInput').value = motivo;
+            const form = document.querySelector('form');
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'acao';
+            input.value = 'recusar';
+            form.appendChild(input);
+            form.submit();
+        } else {
+            alert("Você precisa informar o motivo da recusa.");
+        }
+    }
+
+    function validarFormulario() {
+        return true;
+    }
+</script>

@@ -1,11 +1,10 @@
 <?php 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 include('../includes/cabecalho.php');
 require __DIR__ . '/../vendor/autoload.php';
 use App\Entity\Doacao;
-
-
-
 
 if (!isset($_SESSION['id_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
     header('Location: ../login.php');
@@ -51,7 +50,17 @@ $pendentes = Doacao::getPendentes();
                                 <a href="/desafioDoacoes/includes/validacao.php">
                                     <i class="ti-pencil-alt"></i><span>Pendentes</span>
                                 </a>
-                            </li>                          
+                            </li> 
+                              <li>
+                                <a href="/desafioDoacoes/includes/cadastro_organizador.php">
+                                    <i class="ti-pencil-alt"></i><span>Cadastrar suportes</span>
+                                </a>
+                            </li>    
+                            <li>
+                                <a href="/desafioDoacoes/includes/gerar_relatorio.php">
+                                    <i class="ti-pencil-alt"></i><span>Gerar relatórios</span>
+                                </a>
+                            </li>                       
                             <!-- Adicione mais itens aqui se quiser -->
                         </ul>
                     </nav>
