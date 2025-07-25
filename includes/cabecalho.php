@@ -25,7 +25,6 @@ if (isset($_SESSION['id_usuario'])) {
 }
 ?>
 
-<img src="<?= $fotoPerfil ?>" style="width:40px;height:40px;border-radius:50%;">
 <span style="color:white;margin-left:10px;"><?= htmlspecialchars($nomeUsuario) ?></span>
 
 <!DOCTYPE html>

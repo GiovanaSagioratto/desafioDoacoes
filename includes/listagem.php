@@ -2,7 +2,7 @@
 use App\Entity\Doacao;
 session_start();
 require __DIR__ . '/../vendor/autoload.php';
-include 'cabecalho.php';
+include('../includes/cabecalho.php');
 
 if (!isset($_SESSION['id_usuario'])) {
     header("Location: ../login.php");

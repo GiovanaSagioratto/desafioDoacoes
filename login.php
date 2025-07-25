@@ -2,8 +2,12 @@
 <?php
 // Inicia a sessão no TOPO do arquivo, antes de qualquer output
 session_start();
+if (isset($_SESSION['mensagem'])) {
+    echo '<p>' . $_SESSION['mensagem'] . '</p>';
+    unset($_SESSION['mensagem']);
+}
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '../vendor/autoload.php';
 
 use \App\Db\Database;
 
@@ -61,7 +65,7 @@ if (isset($_POST['email'], $_POST['senha'])) {
     <title>Login - srtdash</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon.ico">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/themify-icons.css">
     <link rel="stylesheet" href="assets/css/metisMenu.css">
@@ -109,7 +113,7 @@ if (isset($_POST['email'], $_POST['senha'])) {
                         </div>
                         <div class="row mb-4 rmber-area">
                             <div class="col-6 text align-center">
-                                <a href="#">Esqueceu a senha?</a> <br>
+                                <a href="includes/recuperar_senha.php">Esqueceu a senha?</a> <br>
                                 <a href="includes/formulario_usuario.php">Cadastre-se</a>
                             </div>
                         </div>

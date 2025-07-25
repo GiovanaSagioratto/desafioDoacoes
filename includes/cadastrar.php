@@ -16,7 +16,7 @@ if ($conn->connect_error) {
     die("Conexão falhou: " . $conn->connect_error);
 }
 
-if (isset($_POST['item'], $_POST['data'], $_POST['quant'], $_POST['local'], $_POST['obs'],$_POST['categoria'])) {
+if (isset($_POST['item'], $_POST['data'], $_POST['local'], $_POST['obs'],$_POST['categoria'])) {
     $doacao = new Doacao();
 
     

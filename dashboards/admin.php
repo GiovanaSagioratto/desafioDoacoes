@@ -3,6 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 include('../includes/cabecalho.php');
+
 require __DIR__ . '/../vendor/autoload.php';
 use App\Entity\Doacao;
 
@@ -33,8 +34,14 @@ $pendentes = Doacao::getPendentes();
     
     <!-- JS Modernizr -->
     <script src="../assets/js/vendor/modernizr-2.8.3.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <canvas id="meuGrafico" width="400" height="200"></canvas>
+  
         <!-- Main Content -->
+         
         <!-- Page Container -->
+         
     <div class="page-container">
         <!-- Sidebar Menu -->
         <div class="sidebar-menu">
@@ -42,6 +49,7 @@ $pendentes = Doacao::getPendentes();
                 <img src="../assets/images/author/logopaCControl.png" style="width: 100%; max-width: 200px; margin: 20px auto; display: block;" />
             </div>
             <div class="main-menu">
+                
                 <div class="menu-inner">
                     <nav>
                         <ul class="metismenu" id="menu">
@@ -57,7 +65,7 @@ $pendentes = Doacao::getPendentes();
                                 </a>
                             </li>    
                             <li>
-                                <a href="/desafioDoacoes/includes/gerar_relatorio.php">
+                                <a href="/desafioDoacoes/dashboards/relatorios.php">
                                     <i class="ti-pencil-alt"></i><span>Gerar relatórios</span>
                                 </a>
                             </li>                       
@@ -66,7 +74,9 @@ $pendentes = Doacao::getPendentes();
                     </nav>
                 </div>
             </div>
+            
         </div>
+        
 
 
     <!-- JS Scripts -->

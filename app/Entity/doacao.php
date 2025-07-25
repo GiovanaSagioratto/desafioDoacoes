@@ -2,14 +2,15 @@
 
 namespace App\Entity;
 
+use \PDO;
 use \PDOException;
+
 use \App\Db\Database;
 
 class Doacao {
     public $id;
     public $item;
     public $data;
-    public $quant;
     public $local;
     public $obs;
     public $arquivo;
@@ -18,6 +19,7 @@ class Doacao {
     public $categoria;
     public $motivo_recusa;
     public $campanha;
+    public $created_at;
     
     public function cadastrar() {
         
@@ -27,7 +29,6 @@ class Doacao {
             $this->id = $obDatabase->insert([
                 'item'    => $this->item,
                 'data'       => $this->data,
-                'quant'      => $this->quant,
                 'categoria'  => $this->categoria,
                 'local'      => $this->local,
                 'obs'        => $this->obs,
@@ -66,7 +67,6 @@ public function atualizar() {
     return (new Database('doacao'))->update('id = '.$this->id, [
         'item'    => $this->item,
         'data'    => $this->data,
-        'quant'   => $this->quant,
         'local'   => $this->local,
         'obs'     => $this->obs,
         'arquivo' => $this->arquivo,
@@ -79,6 +79,16 @@ public function atualizar() {
 public static function getProximaPendente() {
     return (new Database('doacao'))->select("status = 'pendente' ORDER BY id ASC LIMIT 1")
                                    ->fetchObject(self::class);
+}
+public static function getDoacoesPorCampanha()
+{
+    $db = new Database('doacao');
+    $query = "SELECT campanha, DATE(created_at) as dia, COUNT(*) as total
+              FROM doacao
+              WHERE status = 'aprovado'
+              GROUP BY campanha, dia
+              ORDER BY campanha, dia";
+    return $db->execute($query)->fetchAll(PDO::FETCH_ASSOC);
 }
 
 

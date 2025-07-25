@@ -26,7 +26,7 @@ class Usuario {
                 'campanha'     => $this->campanha
                  
             ]);
-            echo "Usuário cadastrado com ID: " . $this->id_usuario;
+           return $this->id_usuario;
         } catch (PDOException $e) {
             echo 'Erro ao cadastrar: ' . $e->getMessage();
         }
@@ -48,7 +48,7 @@ public function atualizar() {
 public static function getUsuariosPorTipo($tipo)
 {
     try {
-        $pdo = new \PDO('mysql:host=localhost;dbname=desafioDoacoes', 'root', '');
+        $pdo = new \PDO('mysql:host=localhost;dbname=validacao', 'root', '1234');
         $stmt = $pdo->prepare('SELECT * FROM usuario WHERE tipo_usuario = :tipo');
         $stmt->bindValue(':tipo', $tipo);
         $stmt->execute();

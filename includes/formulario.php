@@ -50,10 +50,6 @@ include 'cabecalho.php';
     <option value="Doe Calor e Esperança">Doe Calor e Esperança</option> <!-- minha sugestão criativa -->
 </select>
 <div class="form-group">
-  <label class="col-form-label" for="quant">Quantidade</label>
-  <input class="form-control" id="quant" type="number" name="quant" value="<?= $doacao->quant ?? '' ?>">
-</div>
-<div class="form-group">
   <label class="col-form-label" for="datado">Data da doação</label>
   <input class="form-control" id="data" type="date" name="data" 
          value="<?= date('Y-m-d') ?>" readonly>
