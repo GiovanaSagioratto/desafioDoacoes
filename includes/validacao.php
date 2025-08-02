@@ -42,6 +42,23 @@ $horas = $categoriasHoras[$doacao->categoria] ?? 0;
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <title>Sign up - srtdash</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    .centralizado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+  text-align: center;
+}
+form.centralizado textarea {
+  width: 300px;
+  margin-bottom: 10px;
+}
+form.centralizado button {
+  margin: 5px;
+}
+</style>
 <link rel="shortcut icon" type="image/png" href="../assets/images/icon/favicon.ico">
 <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
 <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
@@ -57,9 +74,9 @@ $horas = $categoriasHoras[$doacao->categoria] ?? 0;
 <link rel="stylesheet" href="../assets/css/styles.css">
 <link rel="stylesheet" href="assets/css/responsive.css">
 <!-- modernizr css -->
-<div class="main-content-inner">
-    <div class="row">
-        <div class="col-lg-12 mt-5">
+<div class="main-content-inner d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="row w-100 justify-content-center">
+       <div class="col-lg-6 mt-5">
             <div class="card">
                 <div class="card-body">
                     <div class="invoice-area">

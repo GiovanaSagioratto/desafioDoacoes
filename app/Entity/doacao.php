@@ -43,15 +43,22 @@ class Doacao {
         }
     }
     
-public static function getDoacoesPorUsuario($id_usuario, $status = null) {
-    $where = "id_usuario = $id_usuario";
+public static function getDoacoesPorUsuario($idUsuario, $status = null) {
+    $db = new Database('doacao');
 
-    if ($status !== null) {
+    $where = 'id_usuario = ' . $idUsuario;
+
+    // Se o filtro de status for passado (e não for vazio), adiciona ao WHERE
+    if (!empty($status)) {
         $where .= " AND status = '$status'";
     }
 
-    return (new Database('doacao'))->select($where)
-                                   ->fetchAll(\PDO::FETCH_CLASS, self::class);
+    return $db->select($where)->fetchAll(\PDO::FETCH_OBJ);
+}
+
+public static function getDoacoesPorUsuarioEStatus($idUsuario, $status) {
+    $db = new Database('doacao');
+    return $db->select('id_usuario = ' . $idUsuario . ' AND status = "' . $status . '"')->fetchAll(\PDO::FETCH_OBJ);
 }
 
 public static function getDoacaoPorId($id) {
@@ -85,7 +92,7 @@ public static function getDoacoesPorCampanha()
     $db = new Database('doacao');
     $query = "SELECT campanha, DATE(created_at) as dia, COUNT(*) as total
               FROM doacao
-              WHERE status = 'aprovado'
+              WHERE status = 'aprovada'
               GROUP BY campanha, dia
               ORDER BY campanha, dia";
     return $db->execute($query)->fetchAll(PDO::FETCH_ASSOC);

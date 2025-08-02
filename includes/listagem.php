@@ -4,6 +4,7 @@ session_start();
 require __DIR__ . '/../vendor/autoload.php';
 include('../includes/cabecalho.php');
 
+
 if (!isset($_SESSION['id_usuario'])) {
     header("Location: ../login.php");
     exit;
@@ -16,6 +17,7 @@ $statusFiltro = $_GET['status'] ?? null;
 $doacoes = \App\Entity\Doacao::getDoacoesPorUsuario($id_usuario, $statusFiltro);
 ?>
 
+<head>
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <title>Sign up - srtdash</title>
@@ -36,24 +38,26 @@ $doacoes = \App\Entity\Doacao::getDoacoesPorUsuario($id_usuario, $statusFiltro);
 <link rel="stylesheet" href="assets/css/responsive.css">
 <!-- modernizr css -->
 <script src="../assets/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+
 <div class="main-content-inner">
     <div class="row">
         <!-- Basic List Group start -->
         <div class="col-md-12 mt-5">
             <div class="card">
-                <div class="card-body">
-                    <h4 class="header-title">Lista de acompanhamento
+                <div class="card-body" style="display: flex; justify-content: center;">
+                    
                     </h4>
                     <ul class="list-group">
                         <form method="GET" style="display: flex; justify-content: flex-end; margin-bottom: 15px;">
-                            <label for="status" style="margin-right: 10px; align-self: center;">Filtrar por
+                            <label for="status" style="margin-right:0px; align-self: center;">Filtrar por
                                 status:</label>
                             <select name="status" id="status" onchange="this.form.submit()" class="form-control"
                                 style="width: 150px;">
                                 <option value=""></option>
                                 <option value="pendente" <?= isset($_GET['status']) && $_GET['status'] == 'pendente' ? 'selected' : '' ?>>Pendente</option>
-                                <option value="aprovado" <?= isset($_GET['status']) && $_GET['status'] == 'aprovado' ? 'selected' : '' ?>>Aprovado</option>
-                                <option value="rejeitado" <?= isset($_GET['status']) && $_GET['status'] == 'rejeitado' ? 'selected' : '' ?>>Rejeitado</option>
+                                <option value="aprovada" <?= isset($_GET['status']) && $_GET['status'] == 'aprovada' ? 'selected' : '' ?>>Aprovado</option>
+                                <option value="rejeitada" <?= isset($_GET['status']) && $_GET['status'] == 'rejeitada' ? 'selected' : '' ?>>Rejeitado</option>
                             </select>
                         </form>
 
@@ -67,6 +71,7 @@ $doacoes = \App\Entity\Doacao::getDoacoesPorUsuario($id_usuario, $statusFiltro);
                                 <span style="min-width: 120px;">Status</span>
                             </div>
                             <div style="min-width: 100px;">Ações</div>
+                            
                         </li>
                         <?php foreach ($doacoes as $row): ?>
                             <?php
@@ -74,7 +79,7 @@ $doacoes = \App\Entity\Doacao::getDoacoesPorUsuario($id_usuario, $statusFiltro);
                             // Debug temporário:
                             echo "<!-- STATUS DEBUG: '" . $row->status . "' -->";
                             $status = strtolower(trim($row->status));
-                            $bloquearAcoes = in_array($status, ['aprovada', 'rejeitado']);
+                            $bloquearAcoes = in_array($status, ['aprovada', 'rejeitada']);
                             $corDeFundo = $bloquearAcoes ? '#f8f9fa' : '#ffffff';
                             ?>
                             <li class="list-group-item"
@@ -100,13 +105,16 @@ $doacoes = \App\Entity\Doacao::getDoacoesPorUsuario($id_usuario, $statusFiltro);
                                     </div>
                                 </div>
                                 <div>
-                                    <?php if (!$bloquearAcoes): ?>
-                                        <form action="editar_doacao.php" method="GET" style="display:inline;">
-                                            <input type="hidden" name="id" value="<?= $row->id ?>">
-                                            <button class="btn btn-flat btn-success btn-sm" type="submit">Editar</button>
-                                        </form>
-                                        <a href="excluir.php?id=<?= $row->id ?>" class="btn btn-flat btn-danger btn-sm"
-                                            onclick="return confirm('Tem certeza que deseja excluir esta doação?');">Excluir</a>
+                                    <?php if ($bloquearAcoes): ?>
+                                        <?php if (strtolower($row->status) === 'rejeitada' && !empty($row->motivo_recusa)): ?>
+                                            <button class="btn btn-sm btn-warning"
+                                                onclick="alert('Motivo da recusa: <?= htmlspecialchars($row->motivo_recusa) ?>')">Ver
+                                                motivo</button>
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        <a href="editar_doacao.php?id=<?= $row->id ?>" class="btn btn-sm btn-primary">Editar</a>
+                                        <a href="excluir_doacao.php?id=<?= $row->id ?>" class="btn btn-sm btn-danger"
+                                            onclick="return confirm('Tem certeza que deseja excluir esta doação?')">Excluir</a>
                                     <?php endif; ?>
                                 </div>
                             </li>

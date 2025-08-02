@@ -40,11 +40,14 @@ public static function getUsuarioPorId($id) {
                                      ->fetchObject(self::class);
 }
 public function atualizar() {
-    return (new Database('usuario'))->update('id_usuario = '.$this->id_usuario, [
+    $db = new \App\Db\Database('usuarios');
+    return $db->update('id_usuario = ' . $this->id_usuario, [
         'nome' => $this->nome,
+        'email' => $this->email,
         'foto_perfil' => $this->foto_perfil
     ]);
 }
+
 public static function getUsuariosPorTipo($tipo)
 {
     try {

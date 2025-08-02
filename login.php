@@ -1,4 +1,3 @@
-
 <?php
 // Inicia a sessão no TOPO do arquivo, antes de qualquer output
 session_start();
@@ -36,24 +35,28 @@ if (isset($_POST['email'], $_POST['senha'])) {
             // Redireciona com base no tipo de usuário
             if ($usuario['tipo_usuario'] === 'admin') {
                 header('Location: dashboards/admin.php');
+                exit;
+            } elseif ($usuario['tipo_usuario'] === 'organizador') {
+                header('Location: dashboards/organizador.php');
+                exit;
             } else {
                 header('Location: dashboards/usuario.php');
+                exit;
             }
-            exit;
         } else {
             // Adicione uma mensagem de erro se o login falhar
             $_SESSION['login_error'] = "E-mail ou senha incorretos";
             header('Location: login.php'); // Redireciona de volta para a página de login
             exit;
         }
-       
+
 
     } catch (PDOException $e) {
         $_SESSION['db_error'] = "Erro na conexão com o banco: " . $e->getMessage();
         header('Location: login.php');
-        exit; 
+        exit;
+    }
 }
- } 
 ?>
 
 <!doctype html>

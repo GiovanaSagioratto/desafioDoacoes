@@ -47,15 +47,15 @@ if (isset($_POST['item'], $_POST['data'], $_POST['local'], $_POST['obs'],$_POST[
     try {
         $doacao->cadastrar();
         $_SESSION['mensagem'] = "Doação cadastrada com sucesso!";
-        header("Location: ../dashboard/usuario.php"); // 
+       header("Location: formulario.php"); 
         exit;
     } catch (Exception $e) {
         $_SESSION['erro'] = "Erro ao cadastrar doação: " . $e->getMessage();
-        header("Location: formulario_doacao.php"); // Volta ao formulário em caso de erro
+        header("Location: formulario.php"); 
         exit;
     }
 } else {
     $_SESSION['erro'] = "Preencha todos os campos obrigatórios";
-    header("Location: formulario_doacao.php");
+    header("Location: formulario.php");
     exit;
 }

@@ -70,9 +70,13 @@ include 'cabecalho.php';
   <input class="form-control" id="obs" type="text" name="obs" value="<?= $doacao->obs ?? '' ?>" placeholder="Informação que considere importante sabermos sua participação.">
 </div>
 
-<div class="form-group">
-  <button type="submit">Enviar</button>
-</div>
+<form action="cadastrar.php" method="POST">
+  <!-- Seus campos do formulário aqui -->
+
+  <div class="form-group">
+    <button type="submit">Enviar</button>
+  </div>
+</form>
 </form>                           
     </div>
     

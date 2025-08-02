@@ -2,12 +2,14 @@
 session_start();
 require __DIR__ . '/../vendor/autoload.php';
 
+
 use App\Entity\Usuario;
 
 if (!isset($_SESSION['id_usuario'])) {
     header("Location: ../login.php");
     exit;
 }
+
 
 $usuarioLogado = Usuario::getUsuarioPorId($_SESSION['id_usuario']);
 
@@ -39,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 }
+
 ?>
 
 <!DOCTYPE html>
