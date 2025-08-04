@@ -9,7 +9,7 @@ require __DIR__ . '/../vendor/autoload.php';
 use App\Entity\Doacao;
 $pdo = new PDO('mysql:host=localhost;dbname=validacao;charset=utf8', 'root', '1234');
 
-// Consulta para obter contagem por dia e campanha
+
 $query = "
     SELECT campanha, DATE(created_at) as data, COUNT(*) as total
     FROM doacao
@@ -20,7 +20,6 @@ $stmt = $pdo->prepare($query);
 $stmt->execute();
 $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Organizar os dados por campanha
 $dadosPorCampanha = [];
 
 foreach ($resultados as $linha) {
@@ -38,7 +37,6 @@ foreach ($resultados as $linha) {
     $dadosPorCampanha[$campanha][$data] = $total;
 }
 
-// Gerar listas de datas e contagens
 $labels = array_unique(array_column($resultados, 'data'));
 sort($labels);
 
@@ -64,7 +62,7 @@ foreach ($dadosPorCampanha as $campanha => $datas) {
     $i++;
 }
 
-// Enviar dados para o JavaScript
+
 $labelsJSON = json_encode($labels);
 $datasetsJSON = json_encode($datasets);
 
@@ -79,7 +77,7 @@ $pendentes = Doacao::getPendentes();
 <title>srtdash - ICO Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- CSS -->
+
 <link rel="shortcut icon" type="image/png" href="../assets/images/icon/favicon.ico">
 <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
 <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
@@ -93,11 +91,11 @@ $pendentes = Doacao::getPendentes();
 <link rel="stylesheet" href="../assets/css/responsive.css">
 <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css">
 
-<!-- JS Modernizr -->
+
 <script src="../assets/js/vendor/modernizr-2.8.3.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- Div centralizadora -->
+
 <div style="display: flex; justify-content: center; align-items: center; height: 90vh; margin-left: 30vh">
     <div style="width: 100%; max-width: 900px;">
         <div class="card mt-4">
@@ -198,9 +196,4 @@ $pendentes = Doacao::getPendentes();
     <script src="../assets/js/jquery.slimscroll.min.js"></script>
     <script src="../assets/js/jquery.slicknav.min.js"></script>
 
-    <!-- Ativa o menu -->
-    <script>
-        $(document).ready(function () {
-            $('#menu').metisMenu();
-        });
-    </script>
+  

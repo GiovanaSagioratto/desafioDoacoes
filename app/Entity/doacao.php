@@ -97,6 +97,33 @@ public static function getDoacoesPorCampanha()
               ORDER BY campanha, dia";
     return $db->execute($query)->fetchAll(PDO::FETCH_ASSOC);
 }
+public static function getDadosGraficoPorCampanha($campanha)
+{
+    try {
+        $pdo = new \PDO('mysql:host=localhost;dbname=validacao', 'root', '1234');
+        $sql = "SELECT DATE(created_at) as data, COUNT(*) as total 
+                FROM doacao
+                WHERE campanha = :campanha AND status = 'aprovado'
+                GROUP BY DATE(created_at)
+                ORDER BY data ASC";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':campanha', $campanha);
+        $stmt->execute();
+
+        $resultados = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        $dados = [];
+        foreach ($resultados as $row) {
+            $dados[$row['data']] = (int)$row['total'];
+        }
+
+        return $dados;
+    } catch (\PDOException $e) {
+        echo 'Erro ao buscar dados do gráfico: ' . $e->getMessage();
+        return [];
+    }
+}
 
 
 }

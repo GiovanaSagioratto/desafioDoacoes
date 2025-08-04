@@ -62,6 +62,7 @@ public static function getUsuariosPorTipo($tipo)
         return [];
     }
 }
+
 }
 
 

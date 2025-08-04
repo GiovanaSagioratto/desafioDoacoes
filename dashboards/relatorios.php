@@ -3,7 +3,6 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use App\Entity\Usuario;
 
-
 $usuarios = Usuario::getUsuariosPorTipo('comum');
 ?>
 
@@ -19,7 +18,12 @@ $usuarios = Usuario::getUsuariosPorTipo('comum');
 <body class="bg-light p-4">
 
     <div class="container">
-        <h1 class="mb-4 text-center">Relatórios de Usuários Comuns</h1>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="m-0">Relatórios de Usuários Comuns</h1>
+            <a href="../includes/gerar_relatorio.php" target="_blank" class="btn btn-success">
+                📄 Gerar Relatório Geral
+            </a>
+        </div>
 
         <?php if (empty($usuarios)): ?>
             <div class="alert alert-warning text-center">
@@ -42,9 +46,9 @@ $usuarios = Usuario::getUsuariosPorTipo('comum');
                             <td><?= htmlspecialchars($usuario->email) ?></td>
                             <td><?= htmlspecialchars($usuario->curso) ?></td>
                             <td>
-                                <a href="../includes/gerar_relatorio.php?id_usuario=<?= $usuario->id_usuario ?>" target="_blank"
+                                <a href="../includes/relatorio_individual.php?id_usuario=<?= $usuario->id_usuario ?>" target="_blank"
                                     class="btn btn-sm btn-primary">
-                                    Gerar Relatório
+                                    Relatório Individual
                                 </a>
                             </td>
                         </tr>

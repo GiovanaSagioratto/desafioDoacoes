@@ -47,7 +47,7 @@ include 'cabecalho.php';
     <option value="Campanha do Agasalho">Campanha do Agasalho</option>
     <option value="Dia das Crianças">Dia das Crianças</option>
     <option value="Ajude os Animais">Ajude os Animais</option>
-    <option value="Doe Calor e Esperança">Doe Calor e Esperança</option> <!-- minha sugestão criativa -->
+    <option value="Doe Calor e Esperança">Doe Calor e Esperança</option>
 </select>
 <div class="form-group">
   <label class="col-form-label" for="datado">Data da doação</label>

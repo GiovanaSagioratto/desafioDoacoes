@@ -1,108 +1,94 @@
 <?php
-
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-include('../includes/cabecalho.php');
 
 require __DIR__ . '/../vendor/autoload.php';
+
+use App\Entity\Usuario;
 use App\Entity\Doacao;
-$pdo = new PDO('mysql:host=localhost;dbname=validacao;charset=utf8', 'root', '1234');
 
-// Consulta para obter contagem por dia e campanha
-$query = "
-    SELECT campanha, DATE(created_at) as data, COUNT(*) as total
-    FROM doacao
-    GROUP BY campanha, DATE(created_at)
-    ORDER BY data ASC;
-";
-$stmt = $pdo->prepare($query);
-$stmt->execute();
-$resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Organizar os dados por campanha
-$dadosPorCampanha = [];
-
-foreach ($resultados as $linha) {
-    if ($linha['campanha'] === null)
-        continue; 
-
-    $campanha = $linha['campanha'];
-    $data = $linha['data'];
-    $total = $linha['total'];
-
-    if (!isset($dadosPorCampanha[$campanha])) {
-        $dadosPorCampanha[$campanha] = [];
-    }
-
-    $dadosPorCampanha[$campanha][$data] = $total;
-}
-
-// Gerar listas de datas e contagens
-$labels = array_unique(array_column($resultados, 'data'));
-sort($labels);
-
-$datasets = [];
-
-$cores = ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56'];
-$i = 0;
-
-foreach ($dadosPorCampanha as $campanha => $datas) {
-    $valores = [];
-
-    foreach ($labels as $data) {
-        $valores[] = $datas[$data] ?? 0;
-    }
-
-    $datasets[] = [
-        'label' => $campanha,
-        'data' => $valores,
-        'borderColor' => $cores[$i % count($cores)],
-        'fill' => false
-    ];
-
-    $i++;
-}
-
-// Enviar dados para o JavaScript
-$labelsJSON = json_encode($labels);
-$datasetsJSON = json_encode($datasets);
-
+// Verifica se está logado e é organizador
 if (!isset($_SESSION['id_usuario']) || $_SESSION['tipo_usuario'] !== 'organizador') {
     header('Location: ../login.php');
     exit;
 }
-$pendentes = Doacao::getPendentes();
+
+// Pega dados do organizador e campanha que ele gerencia
+$organizador = Usuario::getUsuarioPorId($_SESSION['id_usuario']);
+$campanha = $organizador->campanha ?? null;
+
+if (!$campanha) {
+    die("Campanha do organizador não definida.");
+}
+
+// Conexão PDO
+$pdo = new PDO('mysql:host=localhost;dbname=validacao;charset=utf8', 'root', '1234');
+
+// Consulta dados só da campanha do organizador, agrupado por data
+$query = "
+    SELECT DATE(created_at) as data, COUNT(*) as total
+    FROM doacao
+    WHERE campanha = :campanha AND status = 'aprovado'
+    GROUP BY DATE(created_at)
+    ORDER BY data ASC
+";
+
+$stmt = $pdo->prepare($query);
+$stmt->bindValue(':campanha', $campanha);
+$stmt->execute();
+$resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Pega todas as datas para o eixo X (labels)
+$labels = array_column($resultados, 'data');
+
+// Pega os totais das doações aprovadas por data para o dataset
+$valores = array_map(fn($item) => (int)$item['total'], $resultados);
+
+$labelsJSON = json_encode($labels);
+$valoresJSON = json_encode($valores);
+
 ?>
-<meta charset="UTF-8">
-<meta http-equiv="x-ua-compatible" content="ie=edge">
-<title>srtdash - ICO Dashboard</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- CSS -->
-<link rel="shortcut icon" type="image/png" href="../assets/images/icon/favicon.ico">
-<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-<link rel="stylesheet" href="../assets/css/font-awesome.min.css">
-<link rel="stylesheet" href="../assets/css/themify-icons.css">
-<link rel="stylesheet" href="../assets/css/metisMenu.css">
-<link rel="stylesheet" href="../assets/css/owl.carousel.min.css">
-<link rel="stylesheet" href="../assets/css/slicknav.min.css">
-<link rel="stylesheet" href="../assets/css/typography.css">
-<link rel="stylesheet" href="../assets/css/default-css.css">
-<link rel="stylesheet" href="../assets/css/styles.css">
-<link rel="stylesheet" href="../assets/css/responsive.css">
-<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Organizador - <?= htmlspecialchars($campanha) ?></title>
 
-<!-- JS Modernizr -->
-<script src="../assets/js/vendor/modernizr-2.8.3.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Metatags, CSS e scripts iguais ao admin.php -->
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- Div centralizadora -->
+    <link rel="shortcut icon" type="image/png" href="../assets/images/icon/favicon.ico">
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/css/themify-icons.css">
+    <link rel="stylesheet" href="../assets/css/metisMenu.css">
+    <link rel="stylesheet" href="../assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="../assets/css/slicknav.min.css">
+    <link rel="stylesheet" href="../assets/css/typography.css">
+    <link rel="stylesheet" href="../assets/css/default-css.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
 
+    <script src="../assets/js/vendor/modernizr-2.8.3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
 
-<!-- Main Content -->
+<div style="display: flex; justify-content: center; align-items: center; height: 90vh; margin-left: 30vh">
+    <div style="width: 100%; max-width: 900px;">
+        <div class="card mt-4">
+            <div class="card-body">
+                <h4 class="header-title" style="text-align: center;">Evolução das Doações - Campanha <?= htmlspecialchars($campanha) ?></h4>
+                <canvas id="graficoCampanhaOrganizador" height="150"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
 
-<!-- Page Container -->
+<!-- Sidebar e Menu igual admin.php -->
 
 <div class="page-container">
     <!-- Sidebar Menu -->
@@ -113,68 +99,73 @@ $pendentes = Doacao::getPendentes();
         </div>
         <div class="main-menu">
             <div class="menu-inner">
-                <nav>
-                    
-                </nav>
+                
             </div>
         </div>
-
     </div>
-    <script>
-        const labels = <?php echo $labelsJSON; ?>;
-        const datasets = <?php echo $datasetsJSON; ?>;
+</div>
 
-        const ctx = document.getElementById('graficoCampanhas').getContext('2d');
-        const graficoCampanhas = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: datasets
+<!-- Script do gráfico -->
+<script>
+    const labels = <?= $labelsJSON ?>;
+    const dados = <?= $valoresJSON ?>;
+
+    const ctx = document.getElementById('graficoCampanhaOrganizador').getContext('2d');
+    const grafico = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Doações aprovadas',
+                data: dados,
+                borderColor: '#36a2eb',
+                fill: false,
+                tension: 0.3
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Evolução da Campanha: <?= addslashes(htmlspecialchars($campanha)) ?>'
+                },
+                legend: {
+                    position: 'bottom'
+                }
             },
-            options: {
-                responsive: true,
-                plugins: {
+            scales: {
+                x: {
                     title: {
                         display: true,
-                        text: 'Doações por Campanha ao Longo do Tempo'
-                    },
-                    legend: {
-                        position: 'bottom'
+                        text: 'Data'
                     }
                 },
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Data'
-                        }
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Número de Doações'
                     },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Número de Doações'
-                        },
-                        beginAtZero: true,
-                        precision: 0
-                    }
+                    beginAtZero: true,
+                    precision: 0
                 }
             }
-        });
-    </script>
+        }
+    });
+</script>
 
+<!-- JS e scripts finais idênticos ao admin.php -->
+<script src="../assets/js/vendor/jquery-2.2.4.min.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="../assets/js/metisMenu.min.js"></script>
+<script src="../assets/js/jquery.slimscroll.min.js"></script>
+<script src="../assets/js/jquery.slicknav.min.js"></script>
 
+<script>
+    $(document).ready(function () {
+        $('#menu').metisMenu();
+    });
+</script>
 
-
-    <!-- JS Scripts -->
-    <script src="../assets/js/vendor/jquery-2.2.4.min.js"></script>
-    <script src="../assets/js/bootstrap.min.js"></script>
-    <script src="../assets/js/metisMenu.min.js"></script>
-    <script src="../assets/js/jquery.slimscroll.min.js"></script>
-    <script src="../assets/js/jquery.slicknav.min.js"></script>
-
-    <!-- Ativa o menu -->
-    <script>
-        $(document).ready(function () {
-            $('#menu').metisMenu();
-        });
-    </script>
+</body>
+</html>
