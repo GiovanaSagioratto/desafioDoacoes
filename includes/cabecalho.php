@@ -11,16 +11,14 @@ if (isset($_SESSION['id_usuario'])) {
     $usuario = Usuario::getUsuarioPorId($_SESSION['id_usuario']);
     if ($usuario && isset($usuario->nome)) {
         $nomeUsuario = $usuario->nome;
-        if (!empty($usuario->foto_perfil)) {
-            $fotoPerfil = $usuario->foto_perfil;
-        }
+        
     }
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
+
   <meta charset="UTF-8">
   <title>Sistema</title>
   <style>
@@ -85,9 +83,9 @@ if (isset($_SESSION['id_usuario'])) {
       display: block;
     }
   </style>
-</head>
 
-<body>
+
+
   <div class="topbar">
         <div class="user-menu">
           <div class="user-name">
@@ -111,5 +109,4 @@ if (isset($_SESSION['id_usuario'])) {
 
   
 
-</body>
-</html>
+

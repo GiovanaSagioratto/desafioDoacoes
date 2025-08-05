@@ -1,7 +1,7 @@
 <?php
 session_start();
 require __DIR__ . '/../vendor/autoload.php';
-
+require 'cabecalho.php'; // sem incluir <html>, <head>, <body> de novo aqui
 
 use App\Entity\Usuario;
 
@@ -9,7 +9,6 @@ if (!isset($_SESSION['id_usuario'])) {
     header("Location: ../login.php");
     exit;
 }
-
 
 $usuarioLogado = Usuario::getUsuarioPorId($_SESSION['id_usuario']);
 

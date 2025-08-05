@@ -29,7 +29,7 @@ $pdo = new PDO('mysql:host=localhost;dbname=validacao;charset=utf8', 'root', '12
 $query = "
     SELECT DATE(created_at) as data, COUNT(*) as total
     FROM doacao
-    WHERE campanha = :campanha AND status = 'aprovado'
+    WHERE campanha = :campanha AND status = 'aprovada'
     GROUP BY DATE(created_at)
     ORDER BY data ASC
 ";
