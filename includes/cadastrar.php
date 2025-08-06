@@ -10,6 +10,8 @@ if (!isset($_SESSION['id_usuario'])) {
     exit;
 }
 
+include('../includes/cabecalho.php');
+
 $conn = new mysqli("localhost", "root", "1234", "validacao");
 
 if ($conn->connect_error) {

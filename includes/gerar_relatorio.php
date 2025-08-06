@@ -1,6 +1,7 @@
 <?php
 ob_start();
 require __DIR__ . '/../vendor/autoload.php';
+include('../includes/cabecalho.php');
 
 use Dompdf\Dompdf;
 use Dompdf\Options;

@@ -1,6 +1,7 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 use App\Entity\Usuario;
+include('../includes/cabecalho.php');
 
 session_start();
 

@@ -2,6 +2,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+include('../includes/cabecalho.php');
 
 require __DIR__ . '/../vendor/autoload.php';
 

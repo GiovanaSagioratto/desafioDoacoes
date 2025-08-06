@@ -1,5 +1,6 @@
 <?php
 require __DIR__.'/../vendor/autoload.php';
+include('../includes/cabecalho.php');
 
 use App\Entity\Doacao;
 

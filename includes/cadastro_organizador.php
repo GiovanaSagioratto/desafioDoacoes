@@ -1,7 +1,8 @@
 <?php
 session_start();
 require __DIR__ . '/../vendor/autoload.php';
-require 'cabecalho.php'; // sem incluir <html>, <head>, <body> de novo aqui
+include('../includes/cabecalho.php');
+
 
 use App\Entity\Usuario;
 
@@ -50,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <title>Cadastrar Organizador/Admin</title>
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/desafioDoacoes/assets/css/sidebar.css">
 
 <body>
     <style>
@@ -124,11 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
             </form>
-        </div>
-           <div class="voltar-container">
-       <a href="/desafioDoacoes/dashboards/admin.php">&#8592; Voltar</a>    
-        </a>
-    </div>
+        
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const tipoUsuarioSelect = document.querySelector('select[name="tipo_usuario"]');

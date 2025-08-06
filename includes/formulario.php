@@ -1,5 +1,5 @@
 <?php 
-include 'cabecalho.php';
+include('../includes/cabecalho.php');
 ?>
 <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">

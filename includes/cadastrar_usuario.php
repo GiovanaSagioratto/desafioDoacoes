@@ -4,6 +4,7 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use \App\Entity\Usuario;
+include('../includes/cabecalho.php');
 
 $conn = new mysqli("localhost", "root", "1234", "validacao");
 

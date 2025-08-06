@@ -2,6 +2,8 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use App\Entity\Usuario;
+include('../includes/cabecalho.php');
+
 
 $usuarios = Usuario::getUsuariosPorTipo('comum');
 ?>
