@@ -9,11 +9,32 @@ require __DIR__ . '/../vendor/autoload.php';
 use App\Entity\Usuario;
 use App\Entity\Doacao;
 
+$campanhaOrganizador = $_GET['campanha'] ?? null;
+
+if ($campanhaOrganizador) {
+    $doacoesPendentes = Doacao::getDoacoesPorCampanha($campanhaOrganizador);
+} else {
+    $doacoesPendentes = [];
+}
+if (!empty($doacoesPendentes)) {
+    foreach ($doacoesPendentes as $doacao) {
+        echo "<div class='doacao'>";
+        echo "<p>Item: {$doacao->item}</p>";
+        echo "<p>Categoria: {$doacao->categoria}</p>";
+        echo "<p>Observações: {$doacao->observacao}</p>";
+        // E os botões de Aprovar/Recusar aqui
+        echo "</div>";
+    }
+} else {
+    echo "<p style='color: white;'>Nenhuma doação pendente para sua campanha.</p>";
+}
+
 // Verifica se está logado e é organizador
 if (!isset($_SESSION['id_usuario']) || $_SESSION['tipo_usuario'] !== 'organizador') {
     header('Location: ../login.php');
-    exit;
+    exit;  
 }
+$pendentes = Doacao::getPendentes();
 
 // Pega dados do organizador e campanha que ele gerencia
 $organizador = Usuario::getUsuarioPorId($_SESSION['id_usuario']);
@@ -61,22 +82,6 @@ $valoresJSON = json_encode($valores);
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="shortcut icon" type="image/png" href="../assets/images/icon/favicon.ico">
-    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../assets/css/themify-icons.css">
-    <link rel="stylesheet" href="../assets/css/metisMenu.css">
-    <link rel="stylesheet" href="../assets/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="../assets/css/slicknav.min.css">
-    <link rel="stylesheet" href="../assets/css/typography.css">
-    <link rel="stylesheet" href="../assets/css/default-css.css">
-    <link rel="stylesheet" href="../assets/css/styles.css">
-    <link rel="stylesheet" href="../assets/css/responsive.css">
-
-    <script src="../assets/js/vendor/modernizr-2.8.3.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
 
 <div style="display: flex; justify-content: center; align-items: center; height: 90vh; margin-left: 30vh">
     <div style="width: 100%; max-width: 900px;">
@@ -91,20 +96,7 @@ $valoresJSON = json_encode($valores);
 
 <!-- Sidebar e Menu igual admin.php -->
 
-<div class="page-container">
-    <!-- Sidebar Menu -->
-    <div class="sidebar-menu">
-        <div class="sidebar-header">
-            <img src="../assets/images/author/logopaCControl.png"
-                style="width: 100%; max-width: 200px; margin: 20px auto; display: block;" />
-        </div>
-        <div class="main-menu">
-            <div class="menu-inner">
-                
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <!-- Script do gráfico -->
 <script>
@@ -155,18 +147,3 @@ $valoresJSON = json_encode($valores);
     });
 </script>
 
-<!-- JS e scripts finais idênticos ao admin.php -->
-<script src="../assets/js/vendor/jquery-2.2.4.min.js"></script>
-<script src="../assets/js/bootstrap.min.js"></script>
-<script src="../assets/js/metisMenu.min.js"></script>
-<script src="../assets/js/jquery.slimscroll.min.js"></script>
-<script src="../assets/js/jquery.slicknav.min.js"></script>
-
-<script>
-    $(document).ready(function () {
-        $('#menu').metisMenu();
-    });
-</script>
-
-</body>
-</html>

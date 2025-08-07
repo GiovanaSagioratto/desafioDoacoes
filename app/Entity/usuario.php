@@ -64,9 +64,6 @@ public static function getUsuariosPorTipo($tipo)
 }
 
 }
-
-
-
 // public function atualizar(){
 //     return (new Database('validacao'))->update('item = '.$this->item,[
 //         'item' => $this->item,

@@ -1,5 +1,14 @@
 <?php
+use App\Entity\Usuario;
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require __DIR__ . '/../vendor/autoload.php';
+$usuario = Usuario::getUsuarioPorId($_SESSION['id_usuario']);
+$campanhaOrganizador = $usuario->campanha ?? null;
+
+
 
 use App\Entity\Doacao;
 include('../includes/cabecalho.php');
@@ -24,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'], $_POST['acao'])
 }
 
 
-$doacao = Doacao::getProximaPendente();
+$doacao = Doacao::getProximaPendentePorCampanha($campanhaOrganizador);
 
 if (!$doacao) {
     echo "<h3 style='padding:20px;'>Não há doações pendentes para validar.</h3>";
@@ -36,7 +45,8 @@ $categoriasHoras = [
     'curso' => 30,
     'ação' => 40
 ];
-$horas = $categoriasHoras[$doacao->categoria] ?? 0;
+$horas = $categoriasHoras[$doacao['categoria']];
+
 ?>
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -86,14 +96,14 @@ form.centralizado button {
                                     <span>Painel de análise</span>
                                 </div>
                                 <div class="iv-right col-6 text-md-right">
-                                    <span>#<?= htmlspecialchars($doacao->id) ?></span>
+                                    <span>#<?= htmlspecialchars($doacao['id']) ?></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col-md-6">
                                 <?php
-                                $usuario = \App\Entity\usuario::getNomePorId($doacao->id_usuario);
+                                $usuario = \App\Entity\Usuario::getNomePorId($doacao['id_usuario']);
                                 ?>
                                 <h5><?= htmlspecialchars($usuario->nome ?? 'Usuário não encontrado') ?></h5>
                             </div>
@@ -109,12 +119,12 @@ form.centralizado button {
                                 </thead>
                                 <tbody>
 
-                                    <p><strong>Item:</strong> <?= htmlspecialchars($doacao->item) ?></p>
-                                    <p><strong>Campanha:</strong> <?= htmlspecialchars($doacao->campanha) ?></p>
-                                    <p><strong>Categoria:</strong> <?= htmlspecialchars($doacao->categoria) ?></p>
-                                    <p><strong>Observação:</strong> <?= htmlspecialchars($doacao->obs) ?></p>
-                                    <?php if ($doacao->arquivo): ?>
-                                        <p><strong>Anexo:</strong> <a href="<?= $doacao->arquivo ?>" target="_blank">Ver
+                                    <p><strong>Item:</strong> <?= htmlspecialchars($doacao['item']) ?></p>
+                                    <p><strong>Campanha:</strong> <?= htmlspecialchars($doacao['campanha']) ?></p>
+                                    <p><strong>Categoria:</strong> <?= htmlspecialchars($doacao['categoria']) ?></p>
+                                    <p><strong>Observação:</strong> <?= htmlspecialchars($doacao['obs']) ?></p>
+                                    <?php if ($doacao['arquivo']): ?>
+                                        <p><strong>Anexo:</strong> <a href="<?= $doacao['arquivo'] ?>" target="_blank">Ver
                                                 arquivo</a></p>
                                     <?php endif; ?>
                                 </tbody>
@@ -123,7 +133,7 @@ form.centralizado button {
                         </div>
                     </div>
                     <form method="POST" class="invoice-buttons text-right" onsubmit="return validarFormulario()">
-                        <input type="hidden" name="id" value="<?= $doacao->id ?>">
+                        <input type="hidden" name="id" value="<?= $doacao['id'] ?>">
                         <input type="hidden" id="motivoInput" name="motivo">
                         <button type="submit" name="acao" value="aceitar" class="invoice-btn">ACEITAR</button>
                         <button type="button" class="invoice-btn" onclick="recusarComMotivo()">RECUSAR</button>

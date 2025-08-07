@@ -8,6 +8,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $nomeUsuario = 'Usuário';
 if (isset($_SESSION['id_usuario'])) {
   $usuario = Usuario::getUsuarioPorId($_SESSION['id_usuario']);
+  
   if ($usuario && isset($usuario->nome)) {
     $nomeUsuario = $usuario->nome;
   }
@@ -17,6 +18,24 @@ if (isset($_SESSION['id_usuario'])) {
 <html lang="pt-br">
 
 <head>
+  <link rel="shortcut icon" type="image/png" href="../assets/images/icon/favicon.ico">
+<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+<link rel="stylesheet" href="../assets/css/themify-icons.css">
+<link rel="stylesheet" href="../assets/css/metisMenu.css">
+<link rel="stylesheet" href="../assets/css/owl.carousel.min.css">
+<link rel="stylesheet" href="../assets/css/slicknav.min.css">
+<link rel="stylesheet" href="../assets/css/typography.css">
+<link rel="stylesheet" href="../assets/css/default-css.css">
+<link rel="stylesheet" href="../assets/css/styles.css">
+<link rel="stylesheet" href="../assets/css/responsive.css">
+<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css">
+
+
+<script src="../assets/js/vendor/modernizr-2.8.3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
   <meta charset="UTF-8">
   <title>Sistema</title>
   <style>
@@ -28,7 +47,7 @@ if (isset($_SESSION['id_usuario'])) {
 
     body {
       font-family: sans-serif;
-      display: flex;
+      
     }
 
     .sidebar {
@@ -54,7 +73,7 @@ if (isset($_SESSION['id_usuario'])) {
     .menu-inner {
       padding: 20px;
       color: white;
-      /* Você pode adicionar aqui o menu lateral depois */
+      
     }
 
     .main-content {
@@ -133,27 +152,29 @@ if (isset($_SESSION['id_usuario'])) {
         switch ($usuario->tipo_usuario) {
           case 'admin':
             echo '
-              <a href="/desafioDoacoes/includes/validacao.php" style="color: white; text-decoration: none; display: block; margin-bottom: 10px;">Pendentes</a>
+              <a href="/desafioDoacoes/dashboards/admin.php" style="color: white; text-decoration: none; display: block; margin-bottom: 10px;">Home</a>
               <a href="/desafioDoacoes/includes/cadastro_organizador.php" style="color: white; text-decoration: none; display: block; margin-bottom: 10px;">Cadastrar suportes</a>
-              <a href="/desafioDoacoes/dashboards/relatorios.php" style="color: white; text-decoration: none; display: block; margin-bottom: 10px;">Gerar relatórios</a>
+              <a href="/desafioDoacoes/dashboards/relatorios.php" style="color: pink; text-decoration: none; display: block; margin-bottom: 10px;">Gerar relatórios</a>
               ';
             break;
-
           case 'organizador':
             echo '
-              <a href="/desafioDoacoes/includes/visualizar_doacoes.php" style="color: white; text-decoration: none; display: block; margin-bottom: 10px;">Visualizar Doações</a>
-              <a href="/desafioDoacoes/includes/gerenciar_usuarios.php" style="color: white; text-decoration: none; display: block; margin-bottom: 10px;">Gerenciar Usuários</a>
+              <a href="/desafioDoacoes/dashboards/organizador.php" style="color: white; text-decoration: none; display: block;text-align: center; margin-bottom: 10px;">Home</a>
+              <a href="/desafioDoacoes/includes/validacao.php" style="color: white; text-decoration: none; display: block; text-align: center;margin-bottom: 10px;">Pendentes </a>
+              
               ';
             break;
-
-          case 'usuario':
+          case 'comum':
             echo '
-              <a href="/desafioDoacoes/includes/minhas_doacoes.php" style="color: white; text-decoration: none; display: block; margin-bottom: 10px;">Minhas Doações</a>
-              <a href="/desafioDoacoes/includes/doar.php" style="color: white; text-decoration: none; display: block; margin-bottom: 10px;">Fazer Doação</a>
+              <a href="/desafioDoacoes/includes/exibir_horas.php" style="color: white; text-decoration: none; display: block; margin-bottom: 10px;">Home</a              
+              <a href="/desafioDoacoes/includes/formulario.php" style="color: white; text-decoration: none; display: block; margin-bottom: 10px;">Fazer Doação</a>
+              <a href="/desafioDoacoes/includes/listagem.php" style="color: white; text-decoration: none; display: block; margin-bottom: 10px;">Listagem</a>
+
               ';
             break;
         }
       } else {
+        
         echo '<p style="color: white;">Perfil não identificado</p>';
       }
       ?>

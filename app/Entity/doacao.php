@@ -124,40 +124,14 @@ public static function getDadosGraficoPorCampanha($campanha)
         return [];
     }
 }
+public static function getProximaPendentePorCampanha($campanha)
+{
+    $query = "SELECT * FROM doacao WHERE status = 'pendente' AND campanha = :campanha ORDER BY id ASC LIMIT 1";
 
+    $db = new Database();
+    $stmt = $db->getConnection()->prepare($query); // ou getConexao()
+    $stmt->execute([':campanha' => $campanha]);
 
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }
-
-
-
-// public function atualizar(){
-//     return (new Database('validacao'))->update('item = '.$this->item,[
-//         'item' => $this->item,
-//         'categoria' => $this->categoria,
-//         'quant' => $this->quant,
-//         'datado' => $this->datado,
-//         'local' => $this->local,
-//         'anexo' => $this->anexo,
-//         'obg' => $this->obs
-//     ]);
-//   }
-
-//   public function excluir(){
-//     return (new Database('validacao'))->delete('item = '.$this->item);
-//   }
-  
-
-//   public static function getDoacao($where = null, $order = null, $limit = null){
-//     return (new Database('validacao'))->select($where,$order,$limit)
-//                                   ->fetchAll(PDO::FETCH_CLASS,self::class);
-//   }
-
- 
-//   public static function getDoacao($item){
-//     return (new Database('validacao'))->select('item = '.$item)
-//                                   ->fetchObject(self::class);
-//   }
-
-
-
-
+}
