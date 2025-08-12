@@ -166,7 +166,7 @@ if (isset($_SESSION['id_usuario'])) {
             break;
           case 'comum':
             echo '
-              <a href="/desafioDoacoes/includes/exibir_horas.php" style="color: white; text-decoration: none; display: block; margin-bottom: 10px;">Home</a              
+              <a href="/desafioDoacoes/includes/usuario.php.php" style="color: white; text-decoration: none; display: block; margin-bottom: 10px;">Home</a>              
               <a href="/desafioDoacoes/includes/formulario.php" style="color: white; text-decoration: none; display: block; margin-bottom: 10px;">Fazer Doação</a>
               <a href="/desafioDoacoes/includes/listagem.php" style="color: white; text-decoration: none; display: block; margin-bottom: 10px;">Listagem</a>
 

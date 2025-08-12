@@ -20,7 +20,64 @@ include('../includes/cabecalho.php');
   <link rel="stylesheet" href="../assets/css/styles.css">
   <link rel="stylesheet" href="assets/css/responsive.css">
   <!-- modernizr css -->
+   
   <script src="../assets/js/vendor/modernizr-2.8.3.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <div id="mensagemSucesso" style="
+    display:none;
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    background: #4CAF50;
+    color: white;
+    padding: 20px 40px;
+    font-size: 24px;
+    border-radius: 10px;
+    text-align:center;
+    box-shadow:0px 4px 10px rgba(0,0,0,0.2);
+    z-index:9999;
+">
+    ✅ Cadastro efetuado com sucesso!
+</div>
+<script>
+$(document).ready(function(){
+    $("form[action='cadastrar.php']").on("submit", function(e){
+        e.preventDefault(); 
+
+        let formData = new FormData(this);
+
+        $.ajax({
+            url: "cadastrar.php",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(resposta){
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Cadastro efetuado!',
+                    text: 'Sua doação foi registrada com sucesso.',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+
+                $("form[action='cadastrar.php']")[0].reset();
+            },
+            error: function(){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro!',
+                    text: 'Ocorreu um erro ao cadastrar a doação.'
+                });
+            }
+        });
+    });
+});
+</script>
+
 <div style="padding: 40px; max-width: 800px; margin: 0 auto;">
   <h4>Cadastre sua doação</h4>  
   <form method="POST" action="cadastrar.php" enctype="multipart/form-data">
