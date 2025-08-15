@@ -120,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <option value="campanha do agasalho">Campanha do Agasalho</option>
                         <option value="dia das crianças">Dia das Crianças</option>
                         <option value="ajude os animais">Ajude os Animais</option>
-                        <option value="natal solidário">Natal Solidário</option>
+                        <option value="Doe calor e Esperança">Doe calor e Esperança</option>
                     </select>
                 </div>
 

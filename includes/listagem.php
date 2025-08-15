@@ -39,6 +39,17 @@ $doacoes = \App\Entity\Doacao::getDoacoesPorUsuario($id_usuario, $statusFiltro);
     <link rel="stylesheet" href="assets/css/responsive.css">
     <!-- modernizr css -->
     <script src="../assets/js/vendor/modernizr-2.8.3.min.js"></script>
+    <style>
+        select.form-control {
+        height: calc(2.25rem + 2px); /* mesma altura dos inputs padrão */
+        padding: 0.375rem 0.75rem;   /* centraliza verticalmente */
+        line-height: 1.5;            /* mantém texto central */
+    }
+    .main-content-inner {
+  margin-left: 250px; /* ajuste conforme a largura real da sua sidebar */
+  padding: 20px;
+}
+    </style>
 </head>
 
 <div class="main-content-inner">

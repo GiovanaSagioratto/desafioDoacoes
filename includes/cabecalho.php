@@ -152,24 +152,22 @@ if (isset($_SESSION['id_usuario'])) {
         switch ($usuario->tipo_usuario) {
           case 'admin':
             echo '
-              <a href="/desafioDoacoes/dashboards/admin.php" style="color: white; text-decoration: none; display: block; margin-bottom: 10px;">Home</a>
-              <a href="/desafioDoacoes/includes/cadastro_organizador.php" style="color: white; text-decoration: none; display: block; margin-bottom: 10px;">Cadastrar suportes</a>
-              <a href="/desafioDoacoes/dashboards/relatorios.php" style="color: pink; text-decoration: none; display: block; margin-bottom: 10px;">Gerar relatórios</a>
+              <a href="/desafioDoacoes/dashboards/admin.php" style="color: white; text-decoration: none; display: block; text-align: center; margin-bottom: 10px;">Home</a>
+              <a href="/desafioDoacoes/includes/cadastro_organizador.php" style="color: white; text-decoration: none; text-align: center; display: block; margin-bottom: 10px;">Cadastrar suportes</a>
+              <a href="/desafioDoacoes/dashboards/relatorios.php" style="color: white; text-decoration: none; display: block; text-align: center; margin-bottom: 10px;">Gerar relatórios</a>
               ';
             break;
           case 'organizador':
             echo '
               <a href="/desafioDoacoes/dashboards/organizador.php" style="color: white; text-decoration: none; display: block;text-align: center; margin-bottom: 10px;">Home</a>
-              <a href="/desafioDoacoes/includes/validacao.php" style="color: white; text-decoration: none; display: block; text-align: center;margin-bottom: 10px;">Pendentes </a>
-              
+              <a href="/desafioDoacoes/includes/validacao.php" style="color: white; text-decoration: none; display: block; text-align: center;margin-bottom: 10px;">Pendentes </a>              
               ';
             break;
           case 'comum':
             echo '
-              <a href="/desafioDoacoes/dashboards/usuario.php" style="color: white; text-decoration: none; display: block; margin-bottom: 10px;">Home</a>              
-              <a href="/desafioDoacoes/includes/formulario.php" style="color: white; text-decoration: none; display: block; margin-bottom: 10px;">Fazer Doação</a>
-              <a href="/desafioDoacoes/includes/listagem.php" style="color: white; text-decoration: none; display: block; margin-bottom: 10px;">Listagem</a>
-
+              <a href="/desafioDoacoes/dashboards/usuario.php" style="color: white; text-decoration: none; display: block; text-align: center; margin-bottom: 10px;">Home</a>              
+              <a href="/desafioDoacoes/includes/formulario.php" style="color: white; text-decoration: none; display: block; text-align: center; margin-bottom: 10px;">Fazer Doação</a>
+              <a href="/desafioDoacoes/includes/listagem.php" style="color: white; text-decoration: none; display: block; text-align: center; margin-bottom: 10px;">Listagem</a>
               ';
             break;
         }
