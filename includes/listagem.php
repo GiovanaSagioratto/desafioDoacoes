@@ -76,8 +76,7 @@ $doacoes = \App\Entity\Doacao::getDoacoesPorUsuario($id_usuario, $statusFiltro);
                         </li>
                         <?php foreach ($doacoes as $row): ?>
                             <?php
-                            // Normaliza o status para garantir compatibilidade
-                            // Debug temporário:
+                          
                             echo "<!-- STATUS DEBUG: '" . $row->status . "' -->";
                             $status = strtolower(trim($row->status));
                             $bloquearAcoes = in_array($status, ['aprovada', 'rejeitada']);
@@ -115,7 +114,7 @@ $doacoes = \App\Entity\Doacao::getDoacoesPorUsuario($id_usuario, $statusFiltro);
                                     <?php else: ?>
                                         <button class="btn btn-sm btn-warning btn-editar"
                                             data-id="<?= $row->id ?>">Editar</button> <a
-                                            href="excluir_doacao.php?id=<?= $row->id ?>" class="btn btn-sm btn-danger"
+                                            href="excluir.php?id=<?= $row->id ?>" class="btn btn-sm btn-danger"
                                             onclick="return confirm('Tem certeza que deseja excluir esta doação?')">Excluir</a>
                                     <?php endif; ?>
                                 </div>

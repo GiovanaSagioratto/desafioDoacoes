@@ -15,9 +15,9 @@ $doacoesAprovadas = Doacao::getDoacoesPorUsuario($id_usuario, 'aprovada');
 
 $categoriasHoras = [
     'alimento' => 10,
-    'evento'   => 20,
-    'curso'    => 30,
-    'ação'     => 40
+    'evento' => 20,
+    'curso' => 30,
+    'ação' => 40
 ];
 
 $totalHoras = 0;
@@ -26,12 +26,23 @@ foreach ($doacoesAprovadas as $doacao) {
     $totalHoras += $categoriasHoras[$categoria] ?? 0;
 }
 
+// trava no máximo 100
+if ($totalHoras > 100) {
+    $totalHoras = 100;
+}
+
 $horasTotais = 100;
 $horasRestantes = max(0, $horasTotais - $totalHoras);
+
+$mensagemParabens = '';
+if ($totalHoras >= $horasTotais) {
+    $mensagemParabens = '🎉 Parabéns! Você já completou suas horas PAC!';
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <title>Sua Jornada PAC</title>
@@ -49,7 +60,7 @@ $horasRestantes = max(0, $horasTotais - $totalHoras);
             padding: 60px 20px 40px;
             text-align: center;
             background-color: #ffffff;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
         .landing-pac h1 {
@@ -76,7 +87,7 @@ $horasRestantes = max(0, $horasTotais - $totalHoras);
             border-radius: 15px;
             padding: 25px 35px;
             min-width: 250px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
             transition: transform 0.2s ease;
         }
 
@@ -100,23 +111,31 @@ $horasRestantes = max(0, $horasTotais - $totalHoras);
         }
     </style>
 </head>
+
 <body>
 
-<div class="landing-pac">
-    <h1>Bem-vindo(a) à sua Jornada PAC</h1>
-    <p>Acompanhe seu progresso e veja quantas horas você já conquistou!</p>
+    <div class="landing-pac">
+        <h1>Bem-vindo(a) à sua Jornada PAC</h1>
+        <p>Acompanhe seu progresso e veja quantas horas você já conquistou!</p>
 
-    <div class="pac-metrics">
-        <div class="pac-card validadas">
-            <h2><?= $totalHoras ?>h</h2>
-            <span>Horas validadas ✅</span>
+        <div class="pac-metrics">
+            <div class="pac-card validadas">
+                <h2><?= $totalHoras ?>h</h2>
+                <span>Horas validadas ✅</span>
+            </div>
+            <div class="pac-card restantes">
+                <h2><?= $horasRestantes ?>h</h2>
+                <span>Horas restantes ⏳</span>
+            </div>
         </div>
-        <div class="pac-card restantes">
-            <h2><?= $horasRestantes ?>h</h2>
-            <span>Horas restantes ⏳</span>
-        </div>
+         <?php if ($mensagemParabens): ?>
+            <div
+                style="margin-top: 20px; padding: 10px; background: #e8f5e9; border: 1px solid #81c784; border-radius: 8px; color: #2e7d32;">
+                <?= $mensagemParabens ?>
+            </div>
+        <?php endif; ?>
     </div>
-</div>
 
 </body>
+
 </html>

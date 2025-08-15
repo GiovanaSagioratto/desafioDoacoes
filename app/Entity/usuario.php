@@ -31,6 +31,17 @@ class Usuario {
             echo 'Erro ao cadastrar: ' . $e->getMessage();
         }
     }
+    public function cadastrarComum() {
+    $this->tipo_usuario = 'comum';
+    // insert no banco sem coluna campanha
+    (new Database('usuario'))->insert([
+        'nome' => $this->nome,
+        'email' => $this->email,
+        'senha' => $this->senha,
+        'curso' => $this->curso,
+        'tipo_usuario' => $this->tipo_usuario
+    ]);
+}
     public static function getNomePorId($id_usuario) {
     return (new Database('usuario'))->select("id_usuario = $id_usuario")
                                     ->fetchObject(self::class);

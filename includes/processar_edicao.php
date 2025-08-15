@@ -1,13 +1,18 @@
 <?php
 require __DIR__.'/../vendor/autoload.php';
-include('../includes/cabecalho.php');
+
 
 use App\Entity\Doacao;
 
 session_start();
 
+header('Content-Type: application/json');
+
 if (!isset($_SESSION['id_usuario'])) {
-    header("Location: ../login.php");
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Usuário não logado.'
+    ]);
     exit;
 }
 
@@ -15,7 +20,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     $doacao = Doacao::getDoacaoPorId((int)$_POST['id']);
 
     if (!$doacao || $doacao->id_usuario != $_SESSION['id_usuario']) {
-        echo "Permissão negada.";
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Permissão negada.'
+        ]);
         exit;
     }
 
@@ -23,10 +31,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     $doacao->local = $_POST['local'];
     $doacao->obs = $_POST['obs'];
 
-    $doacao->atualizar();
-
-    header('Location: listagem.php');
+    if ($doacao->atualizar()) {
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Doação atualizada com sucesso!'
+        ]);
+    } else {
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Erro ao atualizar a doação.'
+        ]);
+    }
     exit;
 }
 
-echo "Erro ao editar.";
+echo json_encode([
+    'status' => 'error',
+    'message' => 'Requisição inválida.'
+]);
